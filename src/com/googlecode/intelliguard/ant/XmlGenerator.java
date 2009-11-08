@@ -52,20 +52,6 @@ public class XmlGenerator
             sb.append(CLOSE_EXTERNAL_CLASSES);
         }
 
-        /*
-        TODO:
-                    .setConserveManifest(facetConfiguration.conservemanifest)
-                    .setReplaceClassNameStrings(facetConfiguration.replaceClassNameStrings)
-                    .sourcefile(facetConfiguration.sourcefile)
-                    .linenumbertable(facetConfiguration.linenumbertable)
-                    .localvariabletable(facetConfiguration.localvariabletable)
-                    .localvariabletypetable(facetConfiguration.localvariabletypetable)
-                    .runtimevisibleannotations(facetConfiguration.runtimevisibleannotations)
-                    .runtimevisibleparameterannotations(facetConfiguration.runtimevisibleparameterannotations)
-                    .runtimeinvisibleannotations(facetConfiguration.runtimeinvisibleannotations)
-                    .runtimeinvisibleparameterannotations(facetConfiguration.runtimevisibleparameterannotations)
-
-         */
         /* TODO:
                     <property name="language-conformity" value="illegal"/>
                     <property name="naming-scheme" value="mix"/>
@@ -74,11 +60,11 @@ public class XmlGenerator
 
         if (configuration.mainclass.length() != 0)
         {
-            sb.append(MessageFormat.format(OPEN_RENAME_WITH_MAIN_CLASS, configuration.mainclass, logFile));
+            sb.append(MessageFormat.format(OPEN_RENAME_WITH_MAIN_CLASS, configuration.mainclass, logFile, configuration.conservemanifest, configuration.replaceClassNameStrings));
         }
         else
         {
-            sb.append(MessageFormat.format(OPEN_RENAME, logFile));
+            sb.append(MessageFormat.format(OPEN_RENAME, logFile, configuration.conservemanifest, configuration.replaceClassNameStrings));
         }
 
         if (configuration.errorChecking)
@@ -88,7 +74,16 @@ public class XmlGenerator
 
         if (!configuration.keepers.isEmpty())
         {
-            sb.append(OPEN_KEEP);
+            final String keep = MessageFormat.format(OPEN_KEEP,
+                    configuration.sourcefile,
+                    configuration.linenumbertable,
+                    configuration.localvariabletable,
+                    configuration.localvariabletypetable,
+                    configuration.runtimevisibleannotations,
+                    configuration.runtimevisibleparameterannotations,
+                    configuration.runtimeinvisibleannotations,
+                    configuration.runtimeinvisibleparameterannotations);
+            sb.append(keep);
             for (Keeper keeper : configuration.keepers)
             {
                 sb.append("                    ");
@@ -109,14 +104,15 @@ public class XmlGenerator
     private static final String OPEN_PROJECT = "<project default=\"{0}\" name=\"yguard\" basedir=\".\">\n";
     private static final String OPEN_TARGET = "    <target name=\"{0}\">\n";
     private static final String OPEN_YGUARD = "        <yguard>\n";
-    private static final String OPEN_RENAME = "            <rename logfile=\"{0}\">\n";
-    private static final String OPEN_RENAME_WITH_MAIN_CLASS = "            <rename mainclass=\"{0}\" logfile=\"{1}\">\n";
-    private static final String OPEN_KEEP = "                <keep>\n";
+    private static final String OPEN_RENAME = "            <rename logfile=\"{0}\" conservemanifest=\"{1}\" replaceClassNameStrings=\"{2}\">\n";
+    private static final String OPEN_RENAME_WITH_MAIN_CLASS = "            <rename mainclass=\"{0}\" logfile=\"{1}\" conservemanifest=\"{2}\" replaceClassNameStrings=\"{3}\">\n";
+    private static final String OPEN_KEEP = "                <keep sourcefile=\"{0}\" linenumbertable=\"{1}\" localvariabletable=\"{2}\" localvariabletypetable=\"{3}\" runtimevisibleannotations=\"{4}\" runtimevisibleparameterannotations=\"{5}\" runtimeinvisibleannotations=\"{6}\" runtimeinvisibleparameterannotations=\"{7}\">\n";
     private static final String CLOSE_KEEP = "                </keep>\n";
     private static final String OPEN_EXTERNAL_CLASSES = "            <externalclasses>\n";
     private static final String EXTERNAL_PATH_ELEMENT = "                <pathelement location=\"{0}\"/>\n";
     private static final String CLOSE_EXTERNAL_CLASSES = "            </externalclasses>\n";
     private static final String IN_OUT_PAIR = "            <inoutpair in=\"{0}\" out=\"{1}\"/>\n";
+    private static final String ATTRIBUTE = "            <attribute name=\"{0}\"/>\n";
     private static final String TASK_DEF = "        <taskdef name=\"yguard\" classname=\"com.yworks.yguard.YGuardTask\" classpath=\"{0}\"/>\n";
     private static final String PEDANTIC_ERROR_CHECKING = "                <property name=\"error-checking\" value=\"pedantic\"/>\n";
 
