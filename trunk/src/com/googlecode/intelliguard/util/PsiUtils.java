@@ -69,7 +69,13 @@ public class PsiUtils
 
         if (element instanceof PsiClass)
         {
-            return ((PsiClass) element).getQualifiedName();
+            final PsiClass psiClass = (PsiClass) element;
+            final PsiClass containingClass = psiClass.getContainingClass();
+            if (containingClass != null)
+            {
+                return getKeeperName(containingClass) + "$" + psiClass.getName();
+            }
+            return psiClass.getQualifiedName();
         }
         else if (element instanceof PsiMethod)
         {
@@ -94,12 +100,12 @@ public class PsiUtils
         if (element instanceof PsiMethod)
         {
             final PsiClass psiClass = ((PsiMethod) element).getContainingClass();
-            return psiClass == null ? null : psiClass.getQualifiedName();
+            return psiClass == null ? null : PsiUtils.getKeeperName(psiClass);
         }
         else if (element instanceof PsiField)
         {
             final PsiClass psiClass = ((PsiField) element).getContainingClass();
-            return psiClass == null ? null : psiClass.getQualifiedName();
+            return psiClass == null ? null : PsiUtils.getKeeperName(psiClass);
         }
 
         return null;

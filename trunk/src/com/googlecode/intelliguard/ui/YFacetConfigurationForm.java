@@ -1,6 +1,7 @@
 package com.googlecode.intelliguard.ui;
 
 import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
+import com.googlecode.intelliguard.util.PsiUtils;
 import com.intellij.facet.ui.FacetEditorContext;
 import com.intellij.facet.ui.FacetEditorValidator;
 import com.intellij.facet.ui.FacetValidatorsManager;
@@ -149,7 +150,7 @@ public class YFacetConfigurationForm
                 PsiClass psiClass = classChooser.getSelectedClass();
                 if (psiClass != null)
                 {
-                    String className = psiClass.getQualifiedName();
+                    String className = PsiUtils.getKeeperName(psiClass);
                     // state.mainclass = className;
                     mainClass.getTextField().setText(className);
                 }
