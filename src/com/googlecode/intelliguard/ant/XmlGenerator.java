@@ -112,7 +112,6 @@ public class XmlGenerator
     private static final String EXTERNAL_PATH_ELEMENT = "                <pathelement location=\"{0}\"/>\n";
     private static final String CLOSE_EXTERNAL_CLASSES = "            </externalclasses>\n";
     private static final String IN_OUT_PAIR = "            <inoutpair in=\"{0}\" out=\"{1}\"/>\n";
-    private static final String ATTRIBUTE = "            <attribute name=\"{0}\"/>\n";
     private static final String TASK_DEF = "        <taskdef name=\"yguard\" classname=\"com.yworks.yguard.YGuardTask\" classpath=\"{0}\"/>\n";
     private static final String PEDANTIC_ERROR_CHECKING = "                <property name=\"error-checking\" value=\"pedantic\"/>\n";
 
