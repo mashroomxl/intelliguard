@@ -49,7 +49,7 @@ public class GuardProjectComponent implements ProjectComponent
     {
         final ToolWindowManager toolWindowManager = ToolWindowManager.getInstance(project);
         toolWindow = toolWindowManager.registerToolWindow(TOOLWINDOW_ID, true, ToolWindowAnchor.BOTTOM);
-        toolWindow.setIcon(Icons.YGUARD_ICON);
+        toolWindow.setIcon(Icons.OBFUSCATION_NODE_ICON);
         toolWindow.setAvailable(false, new Runnable()
         {
             public void run()
