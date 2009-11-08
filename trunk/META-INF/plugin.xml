@@ -20,7 +20,8 @@
 
     <actions>
         <action id="RunObfuscationAction" class="com.googlecode.intelliguard.action.RunObfuscationAction"
-                text="Obfuscate Jar" description="Obfuscate Jar">
+                text="Obfuscate Jar" description="Obfuscate Jar"
+                icon="/com/googlecode/intelliguard/guard_mask_16x16.png">
             <add-to-group group-id="BuildMenu" anchor="after" relative-to-action="BuildJar"/>
         </action>
     </actions>
