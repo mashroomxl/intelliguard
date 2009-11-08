@@ -13,5 +13,5 @@ import javax.swing.*;
 public interface Icons
 {
     public static final Icon YGUARD_ICON = IconLoader.getIcon("/com/googlecode/intelliguard/yguard_16x16.png");
-    public static final Icon OBFUSCATION_NODE_ICON = IconLoader.getIcon("/general/reset.png");
+    public static final Icon OBFUSCATION_NODE_ICON = IconLoader.getIcon("/com/googlecode/intelliguard/guard_mask_16x16.png");
 }
