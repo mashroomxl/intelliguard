@@ -78,7 +78,7 @@ public class GuardInspection extends GuardInspectionBase
                 {
                     return;
                 }
-                
+
                 GuardFacetConfiguration configuration = getLocalConfiguration();
                 if (configuration != null)
                 {
@@ -104,7 +104,7 @@ public class GuardInspection extends GuardInspectionBase
 
         Keeper keeper = new Keeper();
         keeper.setType(Keeper.Type.CLASS);
-        keeper.setName(aClass.getQualifiedName());
+        keeper.setName(PsiUtils.getKeeperName(aClass));
 
         fixes.add(new AddKeepFix(configuration, keeper));
 
@@ -119,40 +119,46 @@ public class GuardInspection extends GuardInspectionBase
         Keeper keeper = new Keeper();
         keeper.setType(Keeper.Type.FIELD);
         keeper.setName(name);
-        fixes.add(new AddKeepFix(configuration, keeper));
+        PsiClass containingClass = field.getContainingClass();
+        if (containingClass != null)
+        {
+            keeper.setClazz(PsiUtils.getKeeperName(containingClass));
+            fixes.add(new AddKeepFix(configuration, keeper));
+        }
 
         keeper = new Keeper();
         keeper.setType(Keeper.Type.FIELD);
         keeper.setName(name);
-        PsiClass containingClass = field.getContainingClass();
-        if (containingClass != null)
-        {
-            keeper.setClazz(containingClass.getQualifiedName());
-            fixes.add(new AddKeepFix(configuration, keeper));
-        }
+        fixes.add(new AddKeepFix(configuration, keeper));
 
         return fixes.toArray(new LocalQuickFix[fixes.size()]);
     }
 
     private LocalQuickFix[] createAddMethodKeeperFixes(final GuardFacetConfiguration configuration, final PsiMethod method)
     {
+        final PsiMethod[] superMethods = method.findDeepestSuperMethods();
+        if (superMethods.length != 0)
+        {
+            return new LocalQuickFix[0];
+        }
+
         Collection<LocalQuickFix> fixes = new ArrayList<LocalQuickFix>();
         String signature = PsiUtils.getSignatureString(method);
 
         Keeper keeper = new Keeper();
         keeper.setType(Keeper.Type.METHOD);
         keeper.setName(signature);
-        fixes.add(new AddKeepFix(configuration, keeper));
+        PsiClass containingClass = method.getContainingClass();
+        if (containingClass != null)
+        {
+            keeper.setClazz(PsiUtils.getKeeperName(containingClass));
+            fixes.add(new AddKeepFix(configuration, keeper));
+        }
 
         keeper = new Keeper();
         keeper.setType(Keeper.Type.METHOD);
         keeper.setName(signature);
-        PsiClass containingClass = method.getContainingClass();
-        if (containingClass != null)
-        {
-            keeper.setClazz(containingClass.getQualifiedName());
-            fixes.add(new AddKeepFix(configuration, keeper));
-        }
+        fixes.add(new AddKeepFix(configuration, keeper));
 
         return fixes.toArray(new LocalQuickFix[fixes.size()]);
     }

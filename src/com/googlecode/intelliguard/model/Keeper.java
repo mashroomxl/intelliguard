@@ -84,7 +84,7 @@ public class Keeper
                     PsiClass psiClass = (PsiClass) element;
                     if (getName() != null)
                     {
-                        return getName().equals(psiClass.getQualifiedName());
+                        return getName().equals(PsiUtils.getKeeperName(psiClass));
                     }
                 }
                 // TODO: deal with fields, methods...
@@ -95,7 +95,7 @@ public class Keeper
                     PsiField psiField = (PsiField) element;
                     if (psiField.getName().equals(getName()))
                     {
-                        return getClazz() == null || getClazz().equals(psiField.getContainingClass().getQualifiedName());
+                        return getClazz() == null || getClazz().equals(PsiUtils.getKeeperName(psiField.getContainingClass()));
                     }
                 }
                 return false;
@@ -106,7 +106,18 @@ public class Keeper
                     String signature = PsiUtils.getSignatureString(psiMethod);
                     if (signature.equals(getName()))
                     {
-                        return getClazz() == null || getClazz().equals(psiMethod.getContainingClass().getQualifiedName());
+                        if (getClazz() == null || getClazz().equals(PsiUtils.getKeeperName(psiMethod.getContainingClass())))
+                        {
+                            return true;
+                        }
+                        PsiMethod[] superMethods = psiMethod.findDeepestSuperMethods();
+                        for (PsiMethod superMethod : superMethods)
+                        {
+                            if (getClazz().equals(PsiUtils.getKeeperName(superMethod.getContainingClass())))
+                            {
+                                return true;
+                            }
+                        }
                     }
                 }
                 return false;
