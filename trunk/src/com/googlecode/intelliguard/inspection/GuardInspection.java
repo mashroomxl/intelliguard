@@ -3,6 +3,8 @@ package com.googlecode.intelliguard.inspection;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.psi.*;
+import com.intellij.openapi.module.ModuleUtil;
+import com.intellij.openapi.module.Module;
 import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
 import com.googlecode.intelliguard.model.Keeper;
 import com.googlecode.intelliguard.util.PsiUtils;
@@ -82,8 +84,14 @@ public class GuardInspection extends GuardInspectionBase
                 final PsiMethod[] superMethods = method.findDeepestSuperMethods();
                 if (superMethods.length != 0)
                 {
-                    // TODO: check if any supermethod is declared outside of this module and if so abort...
-
+                    for (PsiMethod superMethod : superMethods)
+                    {
+                        final Module superModule = ModuleUtil.findModuleForPsiElement(superMethod);
+                        if (superModule == null || !superModule.equals(ModuleUtil.findModuleForPsiElement(method)))
+                        {
+                            return;
+                        }
+                    }
                 }
 
                 GuardFacetConfiguration configuration = getLocalConfiguration();
