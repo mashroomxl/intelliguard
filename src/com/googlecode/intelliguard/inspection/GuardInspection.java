@@ -2,6 +2,7 @@ package com.googlecode.intelliguard.inspection;
 
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.codeInspection.LocalQuickFix;
+import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.psi.*;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.module.Module;
@@ -47,11 +48,11 @@ public class GuardInspection extends GuardInspectionBase
                     final Keeper[] configuredGuardKeepers = configuration.findConfiguredGuardKeepers(aClass);
                     if (configuredGuardKeepers.length != 0)
                     {
-                        holder.registerProblem(getNameIdentifierElement(aClass), "Class is not obfuscated", createRemoveKeeperFixes(configuration, configuredGuardKeepers));
+                        holder.registerProblem(getNameIdentifierElement(aClass), "Class is not obfuscated", ProblemHighlightType.INFORMATION, createRemoveKeeperFixes(configuration, configuredGuardKeepers));
                     }
                     else
                     {
-                        holder.registerProblem(getNameIdentifierElement(aClass), "Class is obfuscated", createAddClassKeeperFixes(configuration, aClass));
+                        holder.registerProblem(getNameIdentifierElement(aClass), "Class is obfuscated", ProblemHighlightType.INFORMATION, createAddClassKeeperFixes(configuration, aClass));
                     }
                 }
 
@@ -67,11 +68,11 @@ public class GuardInspection extends GuardInspectionBase
                     final Keeper[] configuredGuardKeepers = configuration.findConfiguredGuardKeepers(field);
                     if (configuredGuardKeepers.length != 0)
                     {
-                        holder.registerProblem(getNameIdentifierElement(field), "Field is not obfuscated", createRemoveKeeperFixes(configuration, configuredGuardKeepers));
+                        holder.registerProblem(getNameIdentifierElement(field), "Field is not obfuscated", ProblemHighlightType.INFORMATION, createRemoveKeeperFixes(configuration, configuredGuardKeepers));
                     }
                     else
                     {
-                        holder.registerProblem(getNameIdentifierElement(field), "Field is obfuscated", createAddFieldKeeperFixes(configuration, field));
+                        holder.registerProblem(getNameIdentifierElement(field), "Field is obfuscated", ProblemHighlightType.INFORMATION, createAddFieldKeeperFixes(configuration, field));
                     }
                 }
 
@@ -105,11 +106,11 @@ public class GuardInspection extends GuardInspectionBase
                     final Keeper[] configuredGuardKeepers = configuration.findConfiguredGuardKeepers(method);
                     if (configuredGuardKeepers.length != 0)
                     {
-                        holder.registerProblem(getNameIdentifierElement(method), "Method is not obfuscated", createRemoveKeeperFixes(configuration, configuredGuardKeepers));
+                        holder.registerProblem(getNameIdentifierElement(method), "Method is not obfuscated", ProblemHighlightType.INFORMATION, createRemoveKeeperFixes(configuration, configuredGuardKeepers));
                     }
                     else
                     {
-                        holder.registerProblem(getNameIdentifierElement(method), "Method is obfuscated", createAddMethodKeeperFixes(configuration, method));
+                        holder.registerProblem(getNameIdentifierElement(method), "Method is obfuscated", ProblemHighlightType.INFORMATION, createAddMethodKeeperFixes(configuration, method));
                     }
                 }
 
