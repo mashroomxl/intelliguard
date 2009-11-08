@@ -1,0 +1,27 @@
+<idea-plugin version="2">
+    <name>IntelliGuard</name>
+    <description>Java bytecode obfuscation tool</description>
+    <version>0.9.0</version>
+    <vendor email="ronnie@esn.me">Ronnie Kolehmainen</vendor>
+    <idea-version since-build="8000"/>
+    <depends>AntSupport</depends>
+
+    <project-components>
+        <component>
+            <implementation-class>com.googlecode.intelliguard.GuardProjectComponent</implementation-class>
+        </component>
+    </project-components>
+
+    <application-components>
+        <component>
+            <implementation-class>com.googlecode.intelliguard.GuardComponent</implementation-class>
+        </component>
+    </application-components>
+
+    <actions>
+        <action id="RunObfuscationAction" class="com.googlecode.intelliguard.action.RunObfuscationAction"
+                text="Obfuscate Jar" description="Obfuscate Jar">
+            <add-to-group group-id="BuildMenu" anchor="after" relative-to-action="BuildJar"/>
+        </action>
+    </actions>
+</idea-plugin>
