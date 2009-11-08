@@ -25,7 +25,7 @@ public class GuardInspection extends GuardInspectionBase
 {
     @NotNull
     @Override
-    public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, boolean isOnTheFly)
+    public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, final boolean isOnTheFly)
     {
         return new JavaElementVisitor()
         {
@@ -36,6 +36,11 @@ public class GuardInspection extends GuardInspectionBase
             @Override
             public void visitClass(PsiClass aClass)
             {
+                if (isOnTheFly)
+                {
+                    return;
+                }
+                
                 GuardFacetConfiguration configuration = getLocalConfiguration();
                 if (configuration != null)
                 {
