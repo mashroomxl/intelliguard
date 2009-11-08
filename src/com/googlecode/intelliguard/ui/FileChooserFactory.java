@@ -1,0 +1,94 @@
+package com.googlecode.intelliguard.ui;
+
+import com.intellij.openapi.module.Module;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import java.io.File;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: Ronnie
+ * Date: 2009-nov-01
+ * Time: 11:22:50
+ */
+public class FileChooserFactory
+{
+    /**
+     * Creates a filechooser for saving jar files.
+     * @param preferredDirectory the preferred 'current' directory/directories, in order. The first
+     * usable directory will be used as current directory.
+     * @return a filechooser instance
+     */
+    public static JFileChooser createSaveJarChooser(String... preferredDirectory)
+    {
+        JFileChooser jFileChooser = new JFileChooser();
+        FileFilter fileFilter = new FileFilter()
+        {
+            @Override
+            public boolean accept(File f)
+            {
+                return f.isDirectory() || f.getName().endsWith(".jar");
+            }
+
+            @Override
+            public String getDescription()
+            {
+                return "Archive files";
+            }
+        };
+        jFileChooser.setFileFilter(fileFilter);
+
+        for (String f : preferredDirectory)
+        {
+            File file = new File(f);
+            if (file.exists())
+            {
+                jFileChooser.setCurrentDirectory(file);
+                break;
+            }
+        }
+
+        jFileChooser.setDialogTitle("Save Jar File");
+
+        return jFileChooser;
+    }
+
+    public static JFileChooser createFindJarChooser(String... preferredDirectory)
+    {
+        final JFileChooser jFileChooser = createSaveJarChooser(preferredDirectory);
+        jFileChooser.setDialogTitle("Open Jar File");
+        return jFileChooser;
+    }
+
+    /**
+     * Creates a filechooser for files and directories within the <i>module</i>.<br>
+     * The filechooser created prohibits ascending to a directory above the module directory.<br>
+     * @param module the module
+     * @return a filechooser instance
+     */
+    public static JFileChooser createModuleFileChooser(final Module module)
+    {
+        String moduleFilePath = module.getModuleFilePath();
+        final File moduleDirectory = new File(moduleFilePath).getParentFile();
+        JFileChooser jFileChooser = new JFileChooser()
+        {
+            @Override
+            public void changeToParentDirectory()
+            {
+                if (getCurrentDirectory().equals(moduleDirectory))
+                {
+                    return;
+                }
+                super.changeToParentDirectory();
+            }
+        };
+
+        jFileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        jFileChooser.setDialogTitle("Choose File or Directory");
+        jFileChooser.setCurrentDirectory(moduleDirectory);
+
+        return jFileChooser;
+    }
+
+}
