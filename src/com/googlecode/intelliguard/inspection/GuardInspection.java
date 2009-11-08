@@ -79,6 +79,13 @@ public class GuardInspection extends GuardInspectionBase
                     return;
                 }
 
+                final PsiMethod[] superMethods = method.findDeepestSuperMethods();
+                if (superMethods.length != 0)
+                {
+                    // TODO: check if any supermethod is declared outside of this module and if so abort...
+
+                }
+
                 GuardFacetConfiguration configuration = getLocalConfiguration();
                 if (configuration != null)
                 {
