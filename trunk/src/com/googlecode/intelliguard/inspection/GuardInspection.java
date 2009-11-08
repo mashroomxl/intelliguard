@@ -37,7 +37,7 @@ public class GuardInspection extends GuardInspectionBase
             @Override
             public void visitClass(PsiClass aClass)
             {
-                if (isOnTheFly)
+                if (!isOnTheFly)
                 {
                     return;
                 }
@@ -62,6 +62,11 @@ public class GuardInspection extends GuardInspectionBase
             @Override
             public void visitField(PsiField field)
             {
+                if (!isOnTheFly)
+                {
+                    return;
+                }
+
                 GuardFacetConfiguration configuration = getLocalConfiguration();
                 if (configuration != null)
                 {
@@ -82,6 +87,11 @@ public class GuardInspection extends GuardInspectionBase
             @Override
             public void visitMethod(PsiMethod method)
             {
+                if (!isOnTheFly)
+                {
+                    return;
+                }
+
                 if (method.isConstructor())
                 {
                     return;
