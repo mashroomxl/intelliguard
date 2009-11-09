@@ -163,6 +163,10 @@ public class GuardInspection extends GuardInspectionBase
 
     private LocalQuickFix[] createAddMethodKeeperFixes(final GuardFacetConfiguration configuration, final PsiMethod method)
     {
+        if (method.isConstructor())
+        {
+            return new LocalQuickFix[0];
+        }
         final PsiMethod[] superMethods = method.findDeepestSuperMethods();
         if (superMethods.length != 0)
         {
@@ -192,6 +196,14 @@ public class GuardInspection extends GuardInspectionBase
 
     private LocalQuickFix[] createRemoveKeeperFixes(final GuardFacetConfiguration configuration, final Keeper[] keepers, final PsiElement element)
     {
+        if (element instanceof PsiMethod)
+        {
+            PsiMethod psiMethod = (PsiMethod) element;
+            if (psiMethod.isConstructor())
+            {
+                return new LocalQuickFix[0];
+            }
+        }
         Collection<LocalQuickFix> fixes = new ArrayList<LocalQuickFix>();
         for (Keeper keeper : keepers)
         {
