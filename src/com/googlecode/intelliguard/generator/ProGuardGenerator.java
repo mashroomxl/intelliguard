@@ -99,10 +99,12 @@ public class ProGuardGenerator
 
     private static String escape(String in)
     {
+        /*
         if (in.contains(" "))
         {
             return "\"" + in + "\"";
         }
+        */
         return in;
     }
 
