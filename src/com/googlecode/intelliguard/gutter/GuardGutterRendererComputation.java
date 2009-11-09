@@ -82,12 +82,9 @@ public class GuardGutterRendererComputation implements Computable<List<GuardGutt
 
             private void checkElement(PsiElement element)
             {
-                for (Keeper keeper : keepers)
+                if (guardFacet.getConfiguration().findConfiguredGuardKeepers(element).length != 0)
                 {
-                    if (keeper.satisfies(element))
-                    {
-                        return;
-                    }
+                    return;
                 }
                 // no keeper
                 final PsiElement nameIdentifierElement = InspectionUtils.getNameIdentifierElement(element);
