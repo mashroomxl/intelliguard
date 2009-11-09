@@ -8,6 +8,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.compiler.*;
 import com.intellij.openapi.progress.ProgressManager;
+import com.intellij.openapi.ui.Messages;
+import com.intellij.facet.ui.ValidationResult;
 import com.googlecode.intelliguard.facet.GuardFacet;
 import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
 import com.googlecode.intelliguard.ui.BuildObfuscatedJarDialog;
@@ -17,6 +19,7 @@ import com.googlecode.intelliguard.runner.JarTask;
 import com.googlecode.intelliguard.runner.ObfuscateTask;
 import com.googlecode.intelliguard.runner.RunProgress;
 import com.googlecode.intelliguard.util.ModuleUtils;
+import com.googlecode.intelliguard.util.ObfuscatorUtils;
 
 import java.io.*;
 
@@ -62,6 +65,13 @@ public class RunObfuscationAction extends AnAction
         if (baseDir == null)
         {
             System.out.println("RunObfuscationAction.actionPerformed: no baseDir");
+            return;
+        }
+
+        final ValidationResult yGuardValidationResult = ObfuscatorUtils.checkYGuard(guardFacet.getConfiguration().yGuardJar);
+        if (yGuardValidationResult != ValidationResult.OK)
+        {
+            Messages.showErrorDialog(module.getProject(), "Invalid yGuard archive: " + yGuardValidationResult.getErrorMessage() + "\n\nPlease check Obfuscation facet settings.", "Obfuscation error");
             return;
         }
 
