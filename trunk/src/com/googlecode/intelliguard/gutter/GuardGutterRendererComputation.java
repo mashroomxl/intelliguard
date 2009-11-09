@@ -59,14 +59,14 @@ public class GuardGutterRendererComputation implements Computable<List<GuardGutt
             @Override
             public void visitClass(PsiClass psiClass)
             {
-                checkElement(psiClass);
+                checkElement(psiClass, "class");
                 super.visitClass(psiClass);
             }
 
             @Override
             public void visitField(PsiField psiField)
             {
-                checkElement(psiField);
+                checkElement(psiField, "field");
                 super.visitField(psiField);
             }
 
@@ -75,12 +75,12 @@ public class GuardGutterRendererComputation implements Computable<List<GuardGutt
             {
                 if (!InspectionUtils.isDefinedInLibrary(psiMethod))
                 {
-                    checkElement(psiMethod);
+                    checkElement(psiMethod, "method");
                 }
                 super.visitMethod(psiMethod);
             }
 
-            private void checkElement(PsiElement element)
+            private void checkElement(PsiElement element, String type)
             {
                 if (guardFacet.getConfiguration().findConfiguredGuardKeepers(element).length != 0)
                 {
@@ -92,7 +92,7 @@ public class GuardGutterRendererComputation implements Computable<List<GuardGutt
                 }
                 // no keeper
                 final PsiElement nameIdentifierElement = InspectionUtils.getNameIdentifierElement(element);
-                GuardGutterRenderer gradeGutterRenderer = new GuardGutterRenderer(Icons.OBFUSCATION_NODE_ICON, "Obfuscated", nameIdentifierElement.getTextRange());
+                GuardGutterRenderer gradeGutterRenderer = new GuardGutterRenderer(Icons.OBFUSCATION_NODE_ICON, "Obfuscated " + type, nameIdentifierElement.getTextRange());
                 guardGutterRenderers.add(gradeGutterRenderer);
             }
         });
