@@ -115,7 +115,7 @@ public class ProGuardGenerator
     private static final String DONT_OPTIMIZE = "-dontoptimize\n";
     private static final String KEEP_ATTRS = "-keepattributes {0}\n";
     private static final String KEEP_CLASS = "-keep class {0}\n";
-    private static final String OPEN_KEEP_CLASS_MEMBERS = "-keepclassmembernames class {0} {\n";
+    private static final String OPEN_KEEP_CLASS_MEMBERS = "-keepclassmembernames class {0} '{'\n";
     private static final String KEEP_CLASS_MEMBER = "    {0};\n";
     private static final String CLOSE_KEEP_CLASS_MEMBERS = "}\n";
     private static final String KEEP_MAIN_CLASS = "-keepclasseswithmembers public class {0} '{'\n    public static void main(java.lang.String[]);\n'}'\n";
