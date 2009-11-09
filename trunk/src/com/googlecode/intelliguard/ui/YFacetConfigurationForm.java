@@ -45,7 +45,7 @@ public class YFacetConfigurationForm
     private TextFieldWithBrowseButton mainClass;
     private JButton downloadYGuardButton;
     private TextFieldWithBrowseButton yJarPath;
-    private static final String YGUARD_DOWNLOAD_URL = "http://www.yworks.com/en/products_yguard_about.html#download";
+    private static final String YGUARD_DOWNLOAD_URL = "http://www.yworks.com/en/products_yguard_about.html";
 
     public YFacetConfigurationForm(final FacetEditorContext editorContext, FacetValidatorsManager validatorsManager, final GuardFacetConfiguration state)
     {
