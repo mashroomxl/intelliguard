@@ -3,8 +3,6 @@ package com.googlecode.intelliguard.gutter;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.event.DocumentListener;
-import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.editor.markup.GutterIconRenderer;
 import com.intellij.openapi.editor.markup.MarkupModel;
 import com.intellij.openapi.editor.markup.RangeHighlighter;
