@@ -1,4 +1,4 @@
-package com.googlecode.intelliguard.ant;
+package com.googlecode.intelliguard.generator;
 
 import com.googlecode.intelliguard.facet.GuardFacet;
 import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
@@ -18,7 +18,7 @@ import java.util.List;
  * Date: 2009-nov-08
  * Time: 12:09:04
  */
-public class XmlGenerator
+public class YGuardGenerator
 {
     public static final String YGUARD_TARGET_NAME = "yguard";
 

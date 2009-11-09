@@ -1,15 +1,14 @@
 package com.googlecode.intelliguard.runner;
 
-import com.googlecode.intelliguard.facet.GuardFacet;
-import com.googlecode.intelliguard.ant.YProjectHelper;
 import com.googlecode.intelliguard.ant.YProject;
-import com.googlecode.intelliguard.ant.XmlGenerator;
-
-import java.io.ByteArrayInputStream;
-
+import com.googlecode.intelliguard.ant.YProjectHelper;
+import com.googlecode.intelliguard.facet.GuardFacet;
+import com.googlecode.intelliguard.generator.YGuardGenerator;
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
-import org.apache.tools.ant.BuildException;
+
+import java.io.ByteArrayInputStream;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,7 +29,7 @@ public class ObfuscateTask implements Runnable
 
     public void run()
     {
-        final String buildXml = XmlGenerator.generateBuildXml(guardFacet);
+        final String buildXml = YGuardGenerator.generateBuildXml(guardFacet);
         System.out.println(buildXml);
         
         final Project project = new YProject(runProgress);
@@ -40,7 +39,7 @@ public class ObfuscateTask implements Runnable
 
         try
         {
-            project.executeTarget(XmlGenerator.YGUARD_TARGET_NAME);
+            project.executeTarget(YGuardGenerator.YGUARD_TARGET_NAME);
         }
         catch (BuildException e)
         {
