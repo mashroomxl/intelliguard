@@ -1,6 +1,7 @@
 package com.googlecode.intelliguard.inspection;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nls;
 import com.intellij.psi.*;
 import com.intellij.codeInspection.ProblemsHolder;
 
@@ -30,6 +31,19 @@ public class ObfuscationProblemsInspection extends GuardInspectionBase
         java.lang.Object readResolve();
     }
     */
+
+    @Nls
+    @NotNull
+    public String getDisplayName()
+    {
+        return "Obfuscation Problems";
+    }
+
+    @NotNull
+    public String getShortName()
+    {
+        return "Obfuscation Problems";
+    }
 
     @NotNull
     @Override

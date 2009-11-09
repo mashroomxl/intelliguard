@@ -11,6 +11,7 @@ import com.googlecode.intelliguard.util.InspectionUtils;
 import com.googlecode.intelliguard.fix.RemoveKeepFix;
 import com.googlecode.intelliguard.fix.AddKeepFix;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nls;
 
 import java.util.Collection;
 import java.util.ArrayList;
@@ -23,6 +24,20 @@ import java.util.ArrayList;
  */
 public class GuardInspection extends GuardInspectionBase
 {
+    @Nls
+    @NotNull
+    public String getDisplayName()
+    {
+        return "Guard Inspection";
+    }
+
+    @NotNull
+    public String getShortName()
+    {
+        return "GuardInspection";
+    }
+
+    
     @NotNull
     @Override
     public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, final boolean isOnTheFly)

@@ -77,8 +77,6 @@ public class GutterAction extends AnAction
         {
             GuardMarker.clearMarkers(psiFile);
         }
-
-        System.out.println("GutterAction.actionPerformed");
     }
 
     @Nullable
