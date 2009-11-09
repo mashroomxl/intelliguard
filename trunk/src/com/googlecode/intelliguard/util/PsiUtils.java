@@ -12,6 +12,8 @@ import org.jetbrains.annotations.Nullable;
  */
 public class PsiUtils
 {
+    private static final String VOID_MAIN_JAVA_LANG_STRING = "void main(java.lang.String[])";
+
     @NotNull
     public static String getSignatureString(@NotNull PsiMethod method)
     {
@@ -108,6 +110,14 @@ public class PsiUtils
         }
 
         return null;
+    }
+
+    public static boolean isPublicStaticVoidMain(@NotNull PsiMethod method)
+    {
+        final PsiModifierList modifierList = method.getModifierList();
+        return modifierList.hasModifierProperty("public")
+                && modifierList.hasModifierProperty("static")
+                && VOID_MAIN_JAVA_LANG_STRING.equals(getSignatureString(method));
     }
 
     public static void main(String[] args)

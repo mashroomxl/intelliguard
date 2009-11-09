@@ -59,14 +59,21 @@ public class GuardInspection extends GuardInspectionBase
                 GuardFacetConfiguration configuration = getLocalConfiguration();
                 if (configuration != null)
                 {
-                    final Keeper[] configuredGuardKeepers = configuration.findConfiguredGuardKeepers(aClass);
-                    if (configuredGuardKeepers.length != 0)
+                    if (configuration.isKeptByMainClass(aClass))
                     {
-                        holder.registerProblem(InspectionUtils.getNameIdentifierElement(aClass), "Class is not obfuscated", ProblemHighlightType.INFORMATION, createRemoveKeeperFixes(configuration, configuredGuardKeepers, aClass));
+                        holder.registerProblem(InspectionUtils.getNameIdentifierElement(aClass), "Class is not obfuscated due to Main-Class", ProblemHighlightType.INFORMATION);
                     }
                     else
                     {
-                        holder.registerProblem(InspectionUtils.getNameIdentifierElement(aClass), "Class is obfuscated", ProblemHighlightType.INFORMATION, createAddClassKeeperFixes(configuration, aClass));
+                        final Keeper[] configuredGuardKeepers = configuration.findConfiguredGuardKeepers(aClass);
+                        if (configuredGuardKeepers.length != 0)
+                        {
+                            holder.registerProblem(InspectionUtils.getNameIdentifierElement(aClass), "Class is not obfuscated", ProblemHighlightType.INFORMATION, createRemoveKeeperFixes(configuration, configuredGuardKeepers, aClass));
+                        }
+                        else
+                        {
+                            holder.registerProblem(InspectionUtils.getNameIdentifierElement(aClass), "Class is obfuscated", ProblemHighlightType.INFORMATION, createAddClassKeeperFixes(configuration, aClass));
+                        }
                     }
                 }
 
@@ -109,14 +116,21 @@ public class GuardInspection extends GuardInspectionBase
                 GuardFacetConfiguration configuration = getLocalConfiguration();
                 if (configuration != null && !InspectionUtils.isDefinedInLibrary(method))
                 {
-                    final Keeper[] configuredGuardKeepers = configuration.findConfiguredGuardKeepers(method);
-                    if (configuredGuardKeepers.length != 0)
+                    if (configuration.isKeptByMainClass(method))
                     {
-                        holder.registerProblem(InspectionUtils.getNameIdentifierElement(method), "Method is not obfuscated", ProblemHighlightType.INFORMATION, createRemoveKeeperFixes(configuration, configuredGuardKeepers, method));
+                        holder.registerProblem(InspectionUtils.getNameIdentifierElement(method), "Method is not obfuscated due to Main-Class", ProblemHighlightType.INFORMATION);
                     }
                     else
                     {
-                        holder.registerProblem(InspectionUtils.getNameIdentifierElement(method), "Method is obfuscated", ProblemHighlightType.INFORMATION, createAddMethodKeeperFixes(configuration, method));
+                        final Keeper[] configuredGuardKeepers = configuration.findConfiguredGuardKeepers(method);
+                        if (configuredGuardKeepers.length != 0)
+                        {
+                            holder.registerProblem(InspectionUtils.getNameIdentifierElement(method), "Method is not obfuscated", ProblemHighlightType.INFORMATION, createRemoveKeeperFixes(configuration, configuredGuardKeepers, method));
+                        }
+                        else
+                        {
+                            holder.registerProblem(InspectionUtils.getNameIdentifierElement(method), "Method is obfuscated", ProblemHighlightType.INFORMATION, createAddMethodKeeperFixes(configuration, method));
+                        }
                     }
                 }
 
