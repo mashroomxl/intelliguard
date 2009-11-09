@@ -4,6 +4,7 @@ import com.googlecode.intelliguard.facet.GuardFacet;
 import com.googlecode.intelliguard.inspection.GuardInspectionBase;
 import com.googlecode.intelliguard.model.Keeper;
 import com.googlecode.intelliguard.ui.Icons;
+import com.googlecode.intelliguard.util.InspectionUtils;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
@@ -73,7 +74,10 @@ public class GuardGutterRendererComputation implements Computable<List<GuardGutt
             @Override
             public void visitMethod(PsiMethod psiMethod)
             {
-                checkElement(psiMethod);
+                if (!InspectionUtils.isDefinedInLibrary(psiMethod))
+                {
+                    checkElement(psiMethod);
+                }
                 super.visitMethod(psiMethod);
             }
 
@@ -87,9 +91,8 @@ public class GuardGutterRendererComputation implements Computable<List<GuardGutt
                     }
                 }
                 // no keeper
-                final PsiElement nameIdentifierElement = GuardInspectionBase.getNameIdentifierElement(element);
-                int line = document.getLineNumber(nameIdentifierElement.getTextOffset());
-                GuardGutterRenderer gradeGutterRenderer = new GuardGutterRenderer(Icons.OBFUSCATION_NODE_ICON, "Obfuscated", line);
+                final PsiElement nameIdentifierElement = InspectionUtils.getNameIdentifierElement(element);
+                GuardGutterRenderer gradeGutterRenderer = new GuardGutterRenderer(Icons.OBFUSCATION_NODE_ICON, "Obfuscated", nameIdentifierElement.getTextRange());
                 guardGutterRenderers.add(gradeGutterRenderer);
             }
         });

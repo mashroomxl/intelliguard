@@ -4,10 +4,15 @@ import com.intellij.codeInspection.LocalInspectionTool;
 import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNameIdentifierOwner;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiFile;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
+import com.intellij.openapi.editor.markup.MarkupModel;
+import com.intellij.openapi.editor.Document;
 import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
 import com.googlecode.intelliguard.facet.GuardFacet;
+import com.googlecode.intelliguard.gutter.GuardMarker;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -82,17 +87,13 @@ public abstract class GuardInspectionBase extends LocalInspectionTool
         return localConfiguration;
     }
 
-    @NotNull
-    public static PsiElement getNameIdentifierElement(@NotNull PsiElement owner)
+    public static void alertGuardMarkers(PsiElement element)
     {
-        if (owner instanceof PsiNameIdentifierOwner)
+        final PsiFile psiFile = element.getContainingFile();
+        final GuardMarker marker = GuardMarker.getGuardMarker(psiFile);
+        if (marker != null)
         {
-            PsiElement identifierElement = ((PsiNameIdentifierOwner) owner).getNameIdentifier();
-            if (identifierElement != null)
-            {
-                return identifierElement;
-            }
+            marker.refresh();
         }
-        return owner;
     }
 }

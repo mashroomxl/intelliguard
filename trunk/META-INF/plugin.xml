@@ -38,7 +38,7 @@
             <add-to-group group-id="BuildMenu" anchor="after" relative-to-action="BuildJar"/>
         </action>
         <action id="GutterAction" class="com.googlecode.intelliguard.action.GutterAction" text="GutterAction"
-                description="GutterAction">
+                description="Toggle display of obfuscated symbols">
             <add-to-group group-id="EditorGutterPopupMenu" anchor="last"/>
         </action>
     </actions>
