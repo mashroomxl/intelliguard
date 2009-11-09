@@ -9,6 +9,7 @@ import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiClass;
 import com.googlecode.intelliguard.model.Keeper;
 import com.googlecode.intelliguard.model.JarConfig;
 import com.googlecode.intelliguard.util.PsiUtils;
@@ -118,8 +119,28 @@ public class GuardFacetConfiguration implements FacetConfiguration, PersistentSt
         return true;
     }
 
+    public boolean isKeptByMainClass(PsiElement element)
+    {
+        if (mainclass.length() == 0)
+        {
+            return false;
+        }
+        if (element instanceof PsiClass)
+        {
+            return mainclass.equals(PsiUtils.getKeeperName(element));
+        }
+        if (element instanceof PsiMethod)
+        {
+            PsiMethod psiMethod = (PsiMethod) element;
+            return mainclass.equals(PsiUtils.getKeeperName(psiMethod.getContainingClass()))
+                    && PsiUtils.isPublicStaticVoidMain(psiMethod);
+        }
+        return false;
+    }
+
     public Keeper[] findConfiguredGuardKeepers(PsiElement psiElement)
     {
+        // special treatment for constructors
         PsiMethod constructor = null;
         if (psiElement instanceof PsiMethod)
         {

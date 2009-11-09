@@ -86,6 +86,10 @@ public class GuardGutterRendererComputation implements Computable<List<GuardGutt
                 {
                     return;
                 }
+                if (guardFacet.getConfiguration().isKeptByMainClass(element))
+                {
+                    return;
+                }
                 // no keeper
                 final PsiElement nameIdentifierElement = InspectionUtils.getNameIdentifierElement(element);
                 GuardGutterRenderer gradeGutterRenderer = new GuardGutterRenderer(Icons.OBFUSCATION_NODE_ICON, "Obfuscated", nameIdentifierElement.getTextRange());
