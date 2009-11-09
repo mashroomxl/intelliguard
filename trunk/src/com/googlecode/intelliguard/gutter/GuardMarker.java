@@ -3,19 +3,17 @@ package com.googlecode.intelliguard.gutter;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.event.EditorFactoryEvent;
-import com.intellij.openapi.editor.event.EditorFactoryListener;
+import com.intellij.openapi.editor.event.DocumentListener;
+import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.editor.markup.GutterIconRenderer;
 import com.intellij.openapi.editor.markup.MarkupModel;
 import com.intellij.openapi.editor.markup.RangeHighlighter;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiDocumentManager;
+import com.intellij.openapi.util.Key;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiTreeChangeAdapter;
-import com.intellij.psi.PsiTreeChangeEvent;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,78 +21,88 @@ import java.util.List;
  * Date: 2009-nov-09
  * Time: 13:11:58
  */
-public class GuardMarker extends PsiTreeChangeAdapter implements EditorFactoryListener
+public class GuardMarker implements DocumentListener
 {
-    // EditorFactoryListener
+    public static final Key<GuardMarker> KEY = Key.create("com.googlecode.intelliguard.gutter.GuardMarker");
 
-    public void editorCreated(EditorFactoryEvent editorFactoryEvent)
+    private final PsiFile psiFile;
+
+    public GuardMarker(PsiFile psiFile)
     {
-        final Editor editor = editorFactoryEvent.getEditor();
-        final Project project = editor.getProject();
+        this.psiFile = psiFile;
+    }
 
-        if (project == null) return;
+    public void beforeDocumentChange(DocumentEvent documentEvent)
+    {
+    }
 
-        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
+    public void documentChanged(DocumentEvent documentEvent)
+    {
+        createMarkers(psiFile);
+    }
 
-        if (psiFile != null)
+    public static void clearMarkers(@Nullable final PsiFile psiFile)
+    {
+        final MarkupModel markupModel = getMarkupModel(psiFile);
+        if (markupModel == null)
         {
-            updateMarkers(psiFile);
+            return;
         }
 
+        final List<GuardGutterRenderer> guardGutterRenderers = Collections.emptyList();
+
+        ApplicationManager.getApplication().invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                applyRenderers(markupModel, guardGutterRenderers);
+                final GuardMarker marker = markupModel.getDocument().getUserData(KEY);
+                if (marker != null)
+                {
+                    markupModel.getDocument().removeDocumentListener(marker);
+                    markupModel.getDocument().putUserData(KEY, null);
+                }
+            }
+        }, ModalityState.NON_MODAL);
     }
 
-    public void editorReleased(EditorFactoryEvent editorFactoryEvent)
+    public static void createMarkers(@Nullable final PsiFile psiFile)
     {
-        //To change body of implemented methods use File | Settings | File Templates.
+        final MarkupModel markupModel = getMarkupModel(psiFile);
+        if (markupModel == null)
+        {
+            return;
+        }
+
+        final List<GuardGutterRenderer> guardGutterRenderers = ApplicationManager.getApplication().runReadAction(new GuardGutterRendererComputation(psiFile));
+
+        ApplicationManager.getApplication().invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                applyRenderers(markupModel, guardGutterRenderers);
+                final GuardMarker marker = new GuardMarker(psiFile);
+                markupModel.getDocument().putUserData(KEY, marker);
+                markupModel.getDocument().addDocumentListener(marker);
+            }
+        }, ModalityState.NON_MODAL);
     }
 
-    // PsiTreeChangeListener
-    @Override
-    public void childAdded(PsiTreeChangeEvent psiTreeChangeEvent)
+    @Nullable
+    public static MarkupModel getMarkupModel(@Nullable final PsiFile psiFile)
     {
-        updateMarkers(psiTreeChangeEvent.getFile());
-    }
-
-    @Override
-    public void childRemoved(PsiTreeChangeEvent psiTreeChangeEvent)
-    {
-        updateMarkers(psiTreeChangeEvent.getFile());
-    }
-
-    @Override
-    public void childReplaced(PsiTreeChangeEvent psiTreeChangeEvent)
-    {
-        updateMarkers(psiTreeChangeEvent.getFile());
-    }
-
-    @Override
-    public void childMoved(PsiTreeChangeEvent psiTreeChangeEvent)
-    {
-        updateMarkers(psiTreeChangeEvent.getFile());
-    }
-
-    public void updateMarkers(@Nullable final PsiFile psiFile)
-    {
-        if (psiFile == null) return;
+        if (psiFile == null) return null;
 
         final Document document = psiFile.getViewProvider().getDocument();
-        Project project = psiFile.getProject();
+        final Project project = psiFile.getProject();
         if (document != null)
         {
-            final MarkupModel markupModel = document.getMarkupModel(project);
-            final List<GuardGutterRenderer> guardGutterRenderers = ApplicationManager.getApplication().runReadAction(new GuardGutterRendererComputation(psiFile));
-
-            ApplicationManager.getApplication().invokeLater(new Runnable()
-            {
-                public void run()
-                {
-                    applyRenderers(markupModel, guardGutterRenderers);
-                }
-            }, ModalityState.NON_MODAL);
+            return document.getMarkupModel(project);
         }
+        return null;
     }
 
-    private void applyRenderers(MarkupModel markupModel, List<GuardGutterRenderer> guardGutterRenderers)
+    private static void applyRenderers(MarkupModel markupModel, List<GuardGutterRenderer> guardGutterRenderers)
     {
         RangeHighlighter[] allHighlighters = markupModel.getAllHighlighters();
 
