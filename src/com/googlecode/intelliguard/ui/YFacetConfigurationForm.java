@@ -2,6 +2,7 @@ package com.googlecode.intelliguard.ui;
 
 import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
 import com.googlecode.intelliguard.util.PsiUtils;
+import com.googlecode.intelliguard.util.ObfuscatorUtils;
 import com.intellij.facet.ui.FacetEditorContext;
 import com.intellij.facet.ui.FacetEditorValidator;
 import com.intellij.facet.ui.FacetValidatorsManager;
@@ -10,12 +11,8 @@ import com.intellij.ide.BrowserUtil;
 import com.intellij.ide.util.TreeClassChooser;
 import com.intellij.ide.util.TreeClassChooserFactory;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.vfs.JarFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
 import com.intellij.ui.DocumentAdapter;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -198,7 +195,7 @@ public class YFacetConfigurationForm
             @Override
             public ValidationResult check()
             {
-                return checkYGuard(yJarPath.getText());
+                return ObfuscatorUtils.checkYGuard(yJarPath.getText());
             }
         }, yJarPath);
     }
@@ -207,26 +204,4 @@ public class YFacetConfigurationForm
     {
         return panel;
     }
-
-    private static ValidationResult checkYGuard(final String jarPath)
-    {
-        final VirtualFile jarFile = findJarFile(jarPath);
-        if (jarFile == null) {
-          return new ValidationResult("File " + jarPath + " does not exist");
-        }
-
-        String yGuardClassName = "com.yworks.yguard.YGuardTask";
-        final VirtualFile yGuardClassFile = jarFile.findFileByRelativePath(yGuardClassName.replace('.', '/') + ".class");
-        if (yGuardClassFile == null)
-        {
-            return new ValidationResult(jarPath + " does not contain class " + yGuardClassName);
-        }
-        return ValidationResult.OK;
-      }
-
-      @Nullable
-      private static VirtualFile findJarFile(final String jarPath) {
-        return JarFileSystem.getInstance().refreshAndFindFileByPath(FileUtil.toSystemIndependentName(jarPath) + JarFileSystem.JAR_SEPARATOR);
-      }
-
 }
