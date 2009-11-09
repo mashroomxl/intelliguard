@@ -2,12 +2,15 @@ package com.googlecode.intelliguard;
 
 import com.googlecode.intelliguard.refactor.RenameListenerProvider;
 import com.googlecode.intelliguard.ui.Icons;
+import com.googlecode.intelliguard.gutter.GuardMarkerEditorListener;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowAnchor;
 import com.intellij.openapi.wm.ToolWindowManager;
+import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.refactoring.listeners.RefactoringListenerManager;
+import com.intellij.util.messages.MessageBusConnection;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -23,6 +26,7 @@ public class GuardProjectComponent implements ProjectComponent
     private Project project;
     private ToolWindow toolWindow;
     private RenameListenerProvider renameListenerProvider;
+    private MessageBusConnection messageBusConnection;
 
     public GuardProjectComponent(Project project)
     {
@@ -61,6 +65,9 @@ public class GuardProjectComponent implements ProjectComponent
         final RefactoringListenerManager manager = RefactoringListenerManager.getInstance(project);
         renameListenerProvider = new RenameListenerProvider();
         manager.addListenerProvider(renameListenerProvider);
+
+        messageBusConnection = project.getMessageBus().connect();
+        messageBusConnection.subscribe(FileEditorManagerListener.FILE_EDITOR_MANAGER, new GuardMarkerEditorListener(project));
     }
 
     public void projectClosed()
@@ -68,6 +75,8 @@ public class GuardProjectComponent implements ProjectComponent
         ToolWindowManager.getInstance(project).unregisterToolWindow(TOOLWINDOW_ID);
 
         final RefactoringListenerManager manager = RefactoringListenerManager.getInstance(project);
-        manager.removeListenerProvider(renameListenerProvider);        
+        manager.removeListenerProvider(renameListenerProvider);
+
+        messageBusConnection.disconnect();
     }
 }
