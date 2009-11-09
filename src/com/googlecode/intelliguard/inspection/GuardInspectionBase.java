@@ -83,7 +83,7 @@ public abstract class GuardInspectionBase extends LocalInspectionTool
     }
 
     @NotNull
-    protected PsiElement getNameIdentifierElement(@NotNull PsiElement owner)
+    public static PsiElement getNameIdentifierElement(@NotNull PsiElement owner)
     {
         if (owner instanceof PsiNameIdentifierOwner)
         {

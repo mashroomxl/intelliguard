@@ -1,13 +1,15 @@
 package com.googlecode.intelliguard;
 
+import com.googlecode.intelliguard.gutter.GuardMarker;
+import com.googlecode.intelliguard.refactor.RenameListenerProvider;
+import com.googlecode.intelliguard.ui.Icons;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
-import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.openapi.wm.ToolWindowAnchor;
+import com.intellij.openapi.wm.ToolWindowManager;
+import com.intellij.psi.PsiManager;
 import com.intellij.refactoring.listeners.RefactoringListenerManager;
-import com.googlecode.intelliguard.ui.Icons;
-import com.googlecode.intelliguard.refactor.RenameListenerProvider;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -61,6 +63,9 @@ public class GuardProjectComponent implements ProjectComponent
         final RefactoringListenerManager manager = RefactoringListenerManager.getInstance(project);
         renameListenerProvider = new RenameListenerProvider();
         manager.addListenerProvider(renameListenerProvider);
+
+        GuardMarker guardMarker = new GuardMarker();
+        PsiManager.getInstance(project).addPsiTreeChangeListener(guardMarker);
     }
 
     public void projectClosed()
