@@ -38,6 +38,6 @@ public class GuardComponent implements ApplicationComponent, InspectionToolProvi
 
     public Class[] getInspectionClasses()
     {
-        return new Class[] { GuardInspection.class, ObfuscationProblemsInspection.class};
+        return new Class[] { GuardInspection.class };
     }
 }
