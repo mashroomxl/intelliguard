@@ -53,6 +53,12 @@ public class RenameListenerProvider implements RefactoringElementListenerProvide
                             return;
                         }
 
+                        // renamed Main-Class
+                        if (newElement instanceof PsiClass && oldName.equals(configuration.mainclass))
+                        {
+                            configuration.mainclass = newName;
+                        }
+
                         for (Keeper keeper : configuration.keepers)
                         {
                             if (newElement instanceof PsiClass)
