@@ -1,7 +1,6 @@
 package com.googlecode.intelliguard.gutter;
 
 import com.googlecode.intelliguard.facet.GuardFacet;
-import com.googlecode.intelliguard.inspection.GuardInspectionBase;
 import com.googlecode.intelliguard.model.Keeper;
 import com.googlecode.intelliguard.ui.Icons;
 import com.googlecode.intelliguard.util.InspectionUtils;

@@ -1,7 +1,6 @@
 package com.googlecode.intelliguard.util;
 
 import com.intellij.psi.*;
-import com.intellij.psi.util.PsiUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
