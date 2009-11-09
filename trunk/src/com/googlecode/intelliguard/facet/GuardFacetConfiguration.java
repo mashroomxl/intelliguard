@@ -8,8 +8,10 @@ import com.intellij.openapi.util.InvalidDataException;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiMethod;
 import com.googlecode.intelliguard.model.Keeper;
 import com.googlecode.intelliguard.model.JarConfig;
+import com.googlecode.intelliguard.util.PsiUtils;
 import org.jdom.Element;
 
 import java.util.Collection;
@@ -118,11 +120,30 @@ public class GuardFacetConfiguration implements FacetConfiguration, PersistentSt
 
     public Keeper[] findConfiguredGuardKeepers(PsiElement psiElement)
     {
+        PsiMethod constructor = null;
+        if (psiElement instanceof PsiMethod)
+        {
+            PsiMethod psiMethod = (PsiMethod) psiElement;
+            if (psiMethod.isConstructor())
+            {
+                constructor = psiMethod;
+            }
+        }
+
         Collection<Keeper> found = new ArrayList<Keeper>();
         for (Keeper keeper : keepers)
         {
-            boolean satisfies = keeper.satisfies(psiElement);
-            if (satisfies)
+            if (constructor != null)
+            {
+                if (keeper.getType() == Keeper.Type.CLASS && keeper.getName() != null)
+                {
+                    if (keeper.getName().equals(PsiUtils.getKeeperName(constructor.getContainingClass())))
+                    {
+                        found.add(keeper);
+                    }
+                }
+            }
+            else if (keeper.satisfies(psiElement))
             {
                 found.add(keeper);
             }
