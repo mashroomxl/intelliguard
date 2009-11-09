@@ -19,7 +19,7 @@ public class GuardGutterRenderer extends GutterIconRenderer
     private String tooltip;
     private TextRange range;
 
-    public GuardGutterRenderer(@NotNull Icon icon, @Nullable String tooltip, TextRange range)
+    public GuardGutterRenderer(@NotNull Icon icon, @Nullable String tooltip, @NotNull TextRange range)
     {
         this.icon = icon;
         this.tooltip = tooltip;
