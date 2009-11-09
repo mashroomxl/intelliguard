@@ -91,6 +91,25 @@ public class RunObfuscationAction extends AnAction
             configuration.inFile = jarOptionsForm.getJarPath();
             configuration.outFile = jarOptionsForm.getObfuscatedJarPath();
 
+            String errorMessage = null;
+            if (configuration.inFile.length() == 0)
+            {
+                errorMessage = "Output jar path not specified";
+            }
+            else if (configuration.outFile.length() == 0)
+            {
+                errorMessage = "Obfuscation jar path not specified";
+            }
+            else if (configuration.inFile.equals(configuration.outFile))
+            {
+                errorMessage = "Output jar path and obfuscated jar path can not be the same";
+            }
+            if (errorMessage != null)
+            {
+                Messages.showErrorDialog(module.getProject(), errorMessage, "Obfuscation error");
+                return;
+            }
+
             final File inJar = new File(configuration.inFile);
             final File outJar = new File(configuration.outFile);
 
