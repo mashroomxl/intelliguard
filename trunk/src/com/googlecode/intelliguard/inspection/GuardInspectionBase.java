@@ -30,19 +30,6 @@ public abstract class GuardInspectionBase extends LocalInspectionTool
         return "IntelliGuard";
     }
 
-    @Nls
-    @NotNull
-    public String getDisplayName()
-    {
-        return "Guard Inspection";
-    }
-
-    @NotNull
-    public String getShortName()
-    {
-        return "GuardInspection";
-    }
-
     @Override
     public boolean isEnabledByDefault()
     {
