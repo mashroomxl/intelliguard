@@ -4,11 +4,10 @@ import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.psi.*;
-import com.intellij.openapi.module.ModuleUtil;
-import com.intellij.openapi.module.Module;
 import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
 import com.googlecode.intelliguard.model.Keeper;
 import com.googlecode.intelliguard.util.PsiUtils;
+import com.googlecode.intelliguard.util.InspectionUtils;
 import com.googlecode.intelliguard.fix.RemoveKeepFix;
 import com.googlecode.intelliguard.fix.AddKeepFix;
 import org.jetbrains.annotations.NotNull;
@@ -48,11 +47,11 @@ public class GuardInspection extends GuardInspectionBase
                     final Keeper[] configuredGuardKeepers = configuration.findConfiguredGuardKeepers(aClass);
                     if (configuredGuardKeepers.length != 0)
                     {
-                        holder.registerProblem(getNameIdentifierElement(aClass), "Class is not obfuscated", ProblemHighlightType.INFORMATION, createRemoveKeeperFixes(configuration, configuredGuardKeepers));
+                        holder.registerProblem(InspectionUtils.getNameIdentifierElement(aClass), "Class is not obfuscated", ProblemHighlightType.INFORMATION, createRemoveKeeperFixes(configuration, configuredGuardKeepers, aClass));
                     }
                     else
                     {
-                        holder.registerProblem(getNameIdentifierElement(aClass), "Class is obfuscated", ProblemHighlightType.INFORMATION, createAddClassKeeperFixes(configuration, aClass));
+                        holder.registerProblem(InspectionUtils.getNameIdentifierElement(aClass), "Class is obfuscated", ProblemHighlightType.INFORMATION, createAddClassKeeperFixes(configuration, aClass));
                     }
                 }
 
@@ -73,11 +72,11 @@ public class GuardInspection extends GuardInspectionBase
                     final Keeper[] configuredGuardKeepers = configuration.findConfiguredGuardKeepers(field);
                     if (configuredGuardKeepers.length != 0)
                     {
-                        holder.registerProblem(getNameIdentifierElement(field), "Field is not obfuscated", ProblemHighlightType.INFORMATION, createRemoveKeeperFixes(configuration, configuredGuardKeepers));
+                        holder.registerProblem(InspectionUtils.getNameIdentifierElement(field), "Field is not obfuscated", ProblemHighlightType.INFORMATION, createRemoveKeeperFixes(configuration, configuredGuardKeepers, field));
                     }
                     else
                     {
-                        holder.registerProblem(getNameIdentifierElement(field), "Field is obfuscated", ProblemHighlightType.INFORMATION, createAddFieldKeeperFixes(configuration, field));
+                        holder.registerProblem(InspectionUtils.getNameIdentifierElement(field), "Field is obfuscated", ProblemHighlightType.INFORMATION, createAddFieldKeeperFixes(configuration, field));
                     }
                 }
 
@@ -92,35 +91,17 @@ public class GuardInspection extends GuardInspectionBase
                     return;
                 }
 
-                if (method.isConstructor())
-                {
-                    return;
-                }
-
-                final PsiMethod[] superMethods = method.findDeepestSuperMethods();
-                if (superMethods.length != 0)
-                {
-                    for (PsiMethod superMethod : superMethods)
-                    {
-                        final Module superModule = ModuleUtil.findModuleForPsiElement(superMethod);
-                        if (superModule == null || !superModule.equals(ModuleUtil.findModuleForPsiElement(method)))
-                        {
-                            return;
-                        }
-                    }
-                }
-
                 GuardFacetConfiguration configuration = getLocalConfiguration();
-                if (configuration != null)
+                if (configuration != null && !InspectionUtils.isDefinedInLibrary(method))
                 {
                     final Keeper[] configuredGuardKeepers = configuration.findConfiguredGuardKeepers(method);
                     if (configuredGuardKeepers.length != 0)
                     {
-                        holder.registerProblem(getNameIdentifierElement(method), "Method is not obfuscated", ProblemHighlightType.INFORMATION, createRemoveKeeperFixes(configuration, configuredGuardKeepers));
+                        holder.registerProblem(InspectionUtils.getNameIdentifierElement(method), "Method is not obfuscated", ProblemHighlightType.INFORMATION, createRemoveKeeperFixes(configuration, configuredGuardKeepers, method));
                     }
                     else
                     {
-                        holder.registerProblem(getNameIdentifierElement(method), "Method is obfuscated", ProblemHighlightType.INFORMATION, createAddMethodKeeperFixes(configuration, method));
+                        holder.registerProblem(InspectionUtils.getNameIdentifierElement(method), "Method is obfuscated", ProblemHighlightType.INFORMATION, createAddMethodKeeperFixes(configuration, method));
                     }
                 }
 
@@ -137,7 +118,7 @@ public class GuardInspection extends GuardInspectionBase
         keeper.setType(Keeper.Type.CLASS);
         keeper.setName(PsiUtils.getKeeperName(aClass));
 
-        fixes.add(new AddKeepFix(configuration, keeper));
+        fixes.add(new AddKeepFix(configuration, keeper, aClass));
 
         return fixes.toArray(new LocalQuickFix[fixes.size()]);
     }
@@ -154,13 +135,13 @@ public class GuardInspection extends GuardInspectionBase
         if (containingClass != null)
         {
             keeper.setClazz(PsiUtils.getKeeperName(containingClass));
-            fixes.add(new AddKeepFix(configuration, keeper));
+            fixes.add(new AddKeepFix(configuration, keeper, field));
         }
 
         keeper = new Keeper();
         keeper.setType(Keeper.Type.FIELD);
         keeper.setName(name);
-        fixes.add(new AddKeepFix(configuration, keeper));
+        fixes.add(new AddKeepFix(configuration, keeper, field));
 
         return fixes.toArray(new LocalQuickFix[fixes.size()]);
     }
@@ -183,23 +164,23 @@ public class GuardInspection extends GuardInspectionBase
         if (containingClass != null)
         {
             keeper.setClazz(PsiUtils.getKeeperName(containingClass));
-            fixes.add(new AddKeepFix(configuration, keeper));
+            fixes.add(new AddKeepFix(configuration, keeper, method));
         }
 
         keeper = new Keeper();
         keeper.setType(Keeper.Type.METHOD);
         keeper.setName(signature);
-        fixes.add(new AddKeepFix(configuration, keeper));
+        fixes.add(new AddKeepFix(configuration, keeper, method));
 
         return fixes.toArray(new LocalQuickFix[fixes.size()]);
     }
 
-    private LocalQuickFix[] createRemoveKeeperFixes(final GuardFacetConfiguration configuration, final Keeper[] keepers)
+    private LocalQuickFix[] createRemoveKeeperFixes(final GuardFacetConfiguration configuration, final Keeper[] keepers, final PsiElement element)
     {
         Collection<LocalQuickFix> fixes = new ArrayList<LocalQuickFix>();
         for (Keeper keeper : keepers)
         {
-            fixes.add(new RemoveKeepFix(configuration, keeper));
+            fixes.add(new RemoveKeepFix(configuration, keeper, element));
         }
         return fixes.toArray(new LocalQuickFix[fixes.size()]);
     }

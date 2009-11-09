@@ -1,10 +1,11 @@
 package com.googlecode.intelliguard;
 
+import com.intellij.openapi.components.ApplicationComponent;
+import com.intellij.facet.FacetTypeRegistry;
+import com.intellij.codeInspection.InspectionToolProvider;
 import com.googlecode.intelliguard.facet.GuardFacetType;
 import com.googlecode.intelliguard.inspection.GuardInspection;
-import com.intellij.codeInspection.InspectionToolProvider;
-import com.intellij.facet.FacetTypeRegistry;
-import com.intellij.openapi.components.ApplicationComponent;
+import com.googlecode.intelliguard.inspection.ObfuscationProblemsInspection;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -37,6 +38,6 @@ public class GuardComponent implements ApplicationComponent, InspectionToolProvi
 
     public Class[] getInspectionClasses()
     {
-        return new Class[] { GuardInspection.class };
+        return new Class[] { GuardInspection.class, ObfuscationProblemsInspection.class};
     }
 }

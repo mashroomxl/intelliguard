@@ -3,8 +3,10 @@ package com.googlecode.intelliguard.fix;
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiElement;
 import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
 import com.googlecode.intelliguard.model.Keeper;
+import com.googlecode.intelliguard.inspection.GuardInspectionBase;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -17,11 +19,13 @@ public class RemoveKeepFix implements LocalQuickFix
 {
     private final GuardFacetConfiguration configuration;
     private final Keeper keeper;
+    private final PsiElement element;
 
-    public RemoveKeepFix(final GuardFacetConfiguration configuration, final Keeper keeper)
+    public RemoveKeepFix(final GuardFacetConfiguration configuration, final Keeper keeper, final PsiElement element)
     {
         this.configuration = configuration;
         this.keeper = keeper;
+        this.element = element;
     }
 
     @NotNull
@@ -39,5 +43,6 @@ public class RemoveKeepFix implements LocalQuickFix
     public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor)
     {
         configuration.keepers.remove(keeper);
+        GuardInspectionBase.alertGuardMarkers(element);
     }
 }

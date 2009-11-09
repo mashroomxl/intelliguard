@@ -21,7 +21,7 @@ import java.util.List;
  * Date: 2009-nov-09
  * Time: 13:11:58
  */
-public class GuardMarker implements DocumentListener
+public class GuardMarker
 {
     public static final Key<GuardMarker> KEY = Key.create("com.googlecode.intelliguard.gutter.GuardMarker");
 
@@ -32,11 +32,7 @@ public class GuardMarker implements DocumentListener
         this.psiFile = psiFile;
     }
 
-    public void beforeDocumentChange(DocumentEvent documentEvent)
-    {
-    }
-
-    public void documentChanged(DocumentEvent documentEvent)
+    public void refresh()
     {
         createMarkers(psiFile);
     }
@@ -59,7 +55,6 @@ public class GuardMarker implements DocumentListener
                 final GuardMarker marker = markupModel.getDocument().getUserData(KEY);
                 if (marker != null)
                 {
-                    markupModel.getDocument().removeDocumentListener(marker);
                     markupModel.getDocument().putUserData(KEY, null);
                 }
             }
@@ -83,13 +78,12 @@ public class GuardMarker implements DocumentListener
                 applyRenderers(markupModel, guardGutterRenderers);
                 final GuardMarker marker = new GuardMarker(psiFile);
                 markupModel.getDocument().putUserData(KEY, marker);
-                markupModel.getDocument().addDocumentListener(marker);
             }
         }, ModalityState.NON_MODAL);
     }
 
     @Nullable
-    public static MarkupModel getMarkupModel(@Nullable final PsiFile psiFile)
+    private static MarkupModel getMarkupModel(@Nullable final PsiFile psiFile)
     {
         if (psiFile == null) return null;
 
@@ -100,6 +94,13 @@ public class GuardMarker implements DocumentListener
             return document.getMarkupModel(project);
         }
         return null;
+    }
+
+    @Nullable
+    public static GuardMarker getGuardMarker(@Nullable PsiFile psiFile)
+    {
+        final MarkupModel markupModel = GuardMarker.getMarkupModel(psiFile);
+        return markupModel == null ? null : markupModel.getDocument().getUserData(KEY);
     }
 
     private static void applyRenderers(MarkupModel markupModel, List<GuardGutterRenderer> guardGutterRenderers)
