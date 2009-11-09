@@ -37,5 +37,9 @@
                 icon="/com/googlecode/intelliguard/guard_mask_16x16.png">
             <add-to-group group-id="BuildMenu" anchor="after" relative-to-action="BuildJar"/>
         </action>
+        <action id="GutterAction" class="com.googlecode.intelliguard.action.GutterAction" text="GutterAction"
+                description="GutterAction">
+            <add-to-group group-id="EditorGutterPopupMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>

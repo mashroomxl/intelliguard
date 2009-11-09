@@ -1,12 +1,10 @@
 package com.googlecode.intelliguard;
 
 import com.googlecode.intelliguard.facet.GuardFacetType;
-import com.googlecode.intelliguard.gutter.GuardMarker;
 import com.googlecode.intelliguard.inspection.GuardInspection;
 import com.intellij.codeInspection.InspectionToolProvider;
 import com.intellij.facet.FacetTypeRegistry;
 import com.intellij.openapi.components.ApplicationComponent;
-import com.intellij.openapi.editor.EditorFactory;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -24,7 +22,6 @@ public class GuardComponent implements ApplicationComponent, InspectionToolProvi
     public void initComponent()
     {
         FacetTypeRegistry.getInstance().registerFacetType(GuardFacetType.getInstance());
-        EditorFactory.getInstance().addEditorFactoryListener(new GuardMarker());
     }
 
     public void disposeComponent()
