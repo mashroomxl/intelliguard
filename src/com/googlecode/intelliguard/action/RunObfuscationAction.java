@@ -147,7 +147,7 @@ public class RunObfuscationAction extends AnAction
                         }
                         else
                         {
-                            runProgress.markError();
+                            runProgress.markError("Obfuscation aborted. Compilation errors: " + errors);
                             UiUtils.showErrorBallon(module.getProject(), "Obfuscation aborted. Compilation errors: " + errors);
                         }
                     }

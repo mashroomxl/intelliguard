@@ -47,7 +47,7 @@ public class YProject extends Project
                 final String message = buildEvent.getMessage();
                 if (message != null)
                 {
-                    runProgress.messageReceived(message);
+                    runProgress.markMessage(message);
                 }
             }
         });
