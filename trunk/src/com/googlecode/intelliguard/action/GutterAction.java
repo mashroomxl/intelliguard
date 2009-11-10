@@ -3,24 +3,19 @@ package com.googlecode.intelliguard.action;
 import com.googlecode.intelliguard.facet.GuardFacet;
 import com.googlecode.intelliguard.gutter.GuardMarker;
 import com.googlecode.intelliguard.ui.Icons;
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * User: ronnie
  * Date: 2009-nov-09
  * Time: 16:28:07
  */
-public class GutterAction extends AnAction
+public class GutterAction extends AbstractGuardAction
 {
     @Override
     public void update(AnActionEvent e)
@@ -77,37 +72,5 @@ public class GutterAction extends AnAction
         {
             GuardMarker.clearMarkers(psiFile);
         }
-    }
-
-    @Nullable
-    private Module getModule(AnActionEvent e)
-    {
-        return DataKeys.MODULE.getData(e.getDataContext());
-    }
-
-    @Nullable
-    private GuardFacet getGuardFacet(AnActionEvent e)
-    {
-        final Module module = getModule(e);
-        return module == null ? null : GuardFacet.getInstance(module);
-    }
-
-    @Nullable
-    private Project getProject(AnActionEvent e)
-    {
-        return DataKeys.PROJECT.getData(e.getDataContext());
-    }
-
-    @Nullable
-    private Document getDocument(AnActionEvent e)
-    {
-        final Editor editor = getEditor(e);
-        return editor == null ? null : editor.getDocument();
-    }
-
-    @Nullable
-    private Editor getEditor(AnActionEvent e)
-    {
-        return DataKeys.EDITOR.getData(e.getDataContext());
     }
 }

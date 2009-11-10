@@ -1,6 +1,5 @@
 package com.googlecode.intelliguard.action;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
@@ -30,7 +29,7 @@ import java.io.*;
  * Date: 2009-okt-29
  * Time: 17:04:58
  */
-public class RunObfuscationAction extends AnAction
+public class RunObfuscationAction extends AbstractGuardAction
 {
     @Override
     public void update(AnActionEvent e)
