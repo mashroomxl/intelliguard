@@ -20,6 +20,7 @@ import com.googlecode.intelliguard.runner.ObfuscateTask;
 import com.googlecode.intelliguard.runner.RunProgress;
 import com.googlecode.intelliguard.util.ModuleUtils;
 import com.googlecode.intelliguard.util.ObfuscatorUtils;
+import com.googlecode.intelliguard.GuardProjectComponent;
 
 import java.io.*;
 
@@ -113,7 +114,7 @@ public class RunObfuscationAction extends AnAction
             final File inJar = new File(configuration.inFile);
             final File outJar = new File(configuration.outFile);
 
-            final RunProgress runProgress = new RunProgress();
+            final RunProgress runProgress = new RunProgress(module.getProject().getComponent(GuardProjectComponent.class).createProgressInfoReceiver());
             final Runnable jarTask = new JarTask(runProgress, module, configuration.jarConfig, configuration.mainclass, inJar);
             final Runnable obfuscateTask = new ObfuscateTask(runProgress, guardFacet);
 

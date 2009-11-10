@@ -2,7 +2,9 @@ package com.googlecode.intelliguard;
 
 import com.googlecode.intelliguard.refactor.RenameListenerProvider;
 import com.googlecode.intelliguard.ui.Icons;
+import com.googlecode.intelliguard.ui.ToolWindowPanel;
 import com.googlecode.intelliguard.gutter.GuardMarkerEditorListener;
+import com.googlecode.intelliguard.runner.ProgressInfoReceiver;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
@@ -11,6 +13,8 @@ import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.refactoring.listeners.RefactoringListenerManager;
 import com.intellij.util.messages.MessageBusConnection;
+import com.intellij.ui.content.Content;
+import com.intellij.ui.content.ContentFactory;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -25,6 +29,7 @@ public class GuardProjectComponent implements ProjectComponent
 
     private Project project;
     private ToolWindow toolWindow;
+    private ToolWindowPanel toolWindowPanel;
     private RenameListenerProvider renameListenerProvider;
     private MessageBusConnection messageBusConnection;
 
@@ -49,12 +54,25 @@ public class GuardProjectComponent implements ProjectComponent
         return "GuardProjectComponent";
     }
 
+    public ProgressInfoReceiver createProgressInfoReceiver()
+    {
+        toolWindowPanel.clear();
+        return toolWindowPanel;
+    }
+
     public void projectOpened()
     {
         final ToolWindowManager toolWindowManager = ToolWindowManager.getInstance(project);
         toolWindow = toolWindowManager.registerToolWindow(TOOLWINDOW_ID, true, ToolWindowAnchor.BOTTOM);
+        toolWindowPanel = new ToolWindowPanel();
+
+        final ContentFactory contentFactory = toolWindow.getContentManager().getFactory();
+        final Content content = contentFactory.createContent(toolWindowPanel.getPanel(), "", true);
+
+        toolWindow.getContentManager().addContent(content);
+
         toolWindow.setIcon(Icons.OBFUSCATION_NODE_ICON);
-        toolWindow.setAvailable(false, new Runnable()
+        toolWindow.setAvailable(true, new Runnable()
         {
             public void run()
             {
