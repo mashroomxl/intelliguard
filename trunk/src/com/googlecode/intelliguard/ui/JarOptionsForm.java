@@ -270,20 +270,17 @@ public class JarOptionsForm
             {
                 File file = new File(String.valueOf(value));
                 String filename = file.getName();
-                if (file.isDirectory())
+                if (file.equals(moduleOutputDir))
                 {
-                    if (file.equals(moduleOutputDir))
-                    {
-                        setIcon(MODULE_ICON);
-                        setText("Module compile output");
-                    }
-                    else
-                    {
-                        setIcon(FOLDER_ICON);
-                        setText("Folder '" + filename + "'");
-                    }
+                    setIcon(MODULE_ICON);
+                    setText("Module compile output");
                 }
-                else if (file.isFile())
+                else if (file.isDirectory())
+                {
+                    setIcon(FOLDER_ICON);
+                    setText("Folder '" + filename + "'");
+                }
+                else
                 {
                     Icon icon = FileTypeManager.getInstance().getFileTypeByExtension(filename.substring(filename.lastIndexOf('.') + 1)).getIcon();
                     setIcon(icon);
