@@ -1,6 +1,7 @@
 package com.googlecode.intelliguard.runner;
 
 import com.intellij.openapi.progress.ProgressManager;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,9 +13,13 @@ public class RunProgress
 {
     private int errors;
 
-    public void markError()
+    public void markError(@Nullable String errorMessage)
     {
         errors++;
+        if (errorMessage != null)
+        {
+            markMessage("[ERROR] " + errorMessage);
+        }
     }
 
     public boolean lookingGood()
@@ -22,8 +27,11 @@ public class RunProgress
         return errors == 0;
     }
 
-    public void messageReceived(String text)
+    public void markMessage(String text)
     {
-        ProgressManager.getInstance().getProgressIndicator().setText2(text);
+        if (text != null)
+        {
+            ProgressManager.getInstance().getProgressIndicator().setText2(text);
+        }
     }
 }

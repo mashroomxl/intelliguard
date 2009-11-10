@@ -1,7 +1,6 @@
 package com.googlecode.intelliguard.runner;
 
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.compiler.make.ManifestBuilder;
 import com.intellij.openapi.roots.ProjectRootsTraversing;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -49,6 +48,7 @@ public class JarTask implements Runnable
         if (mainClass != null && mainClass.length() != 0)
         {
             manifest.getMainAttributes().putValue("Main-Class", mainClass);
+            runProgress.markMessage("Setting Main-Class: " + mainClass);
         }
 
         final File classesDir = ModuleUtils.getModuleOutputDir(module);
@@ -76,8 +76,7 @@ public class JarTask implements Runnable
         }
         catch (IOException e)
         {
-            runProgress.markError();
-            e.printStackTrace();
+            runProgress.markError(e.getMessage());
         }
         finally
         {
@@ -89,7 +88,7 @@ public class JarTask implements Runnable
                 }
                 catch (IOException e)
                 {
-                    runProgress.markError();
+                    runProgress.markError(e.getMessage());
                 }
             }
         }
@@ -127,7 +126,7 @@ public class JarTask implements Runnable
             String entryName = filePath.substring(baseDir.length()).replace('\\', '/');
             while (entryName.startsWith("/")) entryName = entryName.substring(1);
 
-            ProgressManager.getInstance().getProgressIndicator().setText2("Adding " + entryName);
+            runProgress.markMessage("Adding " + entryName);
             JarEntry fileEntry = new JarEntry(entryName);
             jos.putNextEntry(fileEntry);
             byte[] data = new byte[1024];
@@ -139,8 +138,7 @@ public class JarTask implements Runnable
         }
         catch (IOException e)
         {
-            runProgress.markError();
-            e.printStackTrace();
+            runProgress.markError(e.getMessage());
         }
     }
 
@@ -162,7 +160,9 @@ public class JarTask implements Runnable
                 List<String> dependencyFileNames = new ArrayList<String>();
                 for (VirtualFile dependencyJar : virtualFileList)
                 {
-                    dependencyFileNames.add(dependencyJar.getName());
+                    final String dependencyName = dependencyJar.getName();
+                    runProgress.markMessage("Adding dependency " + dependencyName);
+                    dependencyFileNames.add(dependencyName);
                 }
                 StringBuilder sb = new StringBuilder();
                 libsPrefix = libsPrefix.replace('\\', '/').trim();

@@ -43,8 +43,7 @@ public class ObfuscateTask implements Runnable
         }
         catch (BuildException e)
         {
-            runProgress.markError();
-            e.printStackTrace();
+            runProgress.markError(e.getMessage());
         }
     }
 }
