@@ -39,19 +39,35 @@ public class FileChooserFactory
         };
         jFileChooser.setFileFilter(fileFilter);
 
+        setPreferedDirectory(jFileChooser, preferredDirectory);
+
+        jFileChooser.setDialogTitle("Save Jar File");
+
+        return jFileChooser;
+    }
+
+    public static JFileChooser createPreferredDirectoryFileChooser(String dialogTitle, String... preferredDirectory)
+    {
+        JFileChooser jFileChooser = new JFileChooser();
+
+        setPreferedDirectory(jFileChooser, preferredDirectory);
+
+        jFileChooser.setDialogTitle(dialogTitle);
+
+        return jFileChooser;
+    }
+
+    private static void setPreferedDirectory(JFileChooser jFileChooser, String... preferredDirectory)
+    {
         for (String f : preferredDirectory)
         {
             File file = new File(f);
             if (file.exists())
             {
                 jFileChooser.setCurrentDirectory(file);
-                break;
+                return;
             }
         }
-
-        jFileChooser.setDialogTitle("Save Jar File");
-
-        return jFileChooser;
     }
 
     public static JFileChooser createFindJarChooser(String... preferredDirectory)
