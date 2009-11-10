@@ -4,6 +4,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.module.Module;
 import com.googlecode.intelliguard.facet.GuardFacet;
 import com.googlecode.intelliguard.GuardProjectComponent;
+import com.googlecode.intelliguard.util.UiUtils;
 import com.googlecode.intelliguard.runner.ProgressInfoReceiver;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,6 +32,8 @@ public abstract class AbstractExportAction extends AbstractGuardAction
         final String config = generateConfiguration(guardFacet);
         final ProgressInfoReceiver receiver = module.getProject().getComponent(GuardProjectComponent.class).createProgressInfoReceiver();
         receiver.info(config);
+
+        UiUtils.showInfoBallon(module.getProject(), "Generated obfuscation settings");
     }
 
     protected abstract String generateConfiguration(@NotNull GuardFacet guardFacet);
