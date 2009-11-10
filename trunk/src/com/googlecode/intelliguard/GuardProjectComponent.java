@@ -56,6 +56,7 @@ public class GuardProjectComponent implements ProjectComponent
 
     public ProgressInfoReceiver createProgressInfoReceiver()
     {
+        toolWindow.setAvailable(true, null);
         toolWindowPanel.clear();
         return toolWindowPanel;
     }
@@ -70,15 +71,9 @@ public class GuardProjectComponent implements ProjectComponent
         final Content content = contentFactory.createContent(toolWindowPanel.getPanel(), "", true);
 
         toolWindow.getContentManager().addContent(content);
-
         toolWindow.setIcon(Icons.OBFUSCATION_NODE_ICON);
-        toolWindow.setAvailable(true, new Runnable()
-        {
-            public void run()
-            {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-        });
+        toolWindow.setAutoHide(false);
+        toolWindow.setAvailable(false, null);
 
         final RefactoringListenerManager manager = RefactoringListenerManager.getInstance(project);
         renameListenerProvider = new RenameListenerProvider();
