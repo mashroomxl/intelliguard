@@ -30,8 +30,6 @@ public class ObfuscateTask implements Runnable
     public void run()
     {
         final String buildXml = YGuardGenerator.generateBuildXml(guardFacet);
-        System.out.println(buildXml);
-        
         final Project project = new YProject(runProgress);
         final ProjectHelper projectHelper = new YProjectHelper();
         projectHelper.parse(project, new ByteArrayInputStream(buildXml.getBytes()));
