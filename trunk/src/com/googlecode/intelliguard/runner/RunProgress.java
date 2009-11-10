@@ -11,7 +11,13 @@ import org.jetbrains.annotations.Nullable;
  */
 public class RunProgress
 {
+    private ProgressInfoReceiver infoReceiver;
     private int errors;
+
+    public RunProgress(@Nullable ProgressInfoReceiver infoReceiver)
+    {
+        this.infoReceiver = infoReceiver;
+    }
 
     public void markError(@Nullable String errorMessage)
     {
@@ -29,9 +35,14 @@ public class RunProgress
 
     public void markMessage(String text)
     {
-        if (text != null)
+        if (text == null)
         {
-            ProgressManager.getInstance().getProgressIndicator().setText2(text);
+            return;
         }
+        if (infoReceiver != null)
+        {
+            infoReceiver.info(text);
+        }
+        ProgressManager.getInstance().getProgressIndicator().setText2(text);
     }
 }
