@@ -39,7 +39,7 @@ public class YGuardGenerator
         sb.append(OPEN_YGUARD);
         sb.append(MessageFormat.format(IN_OUT_PAIR, inFile, outFile));
 
-        final PathsList dependenciesList = ProjectRootsTraversing.collectRoots(facet.getModule(), ProjectRootsTraversing.PROJECT_LIBRARIES);
+        final PathsList dependenciesList = ProjectRootsTraversing.collectRoots(facet.getModule(), ProjectRootsTraversing.LIBRARIES_AND_JDK);
         final List<VirtualFile> externalDependencies = dependenciesList.getVirtualFiles();
         if (!externalDependencies.isEmpty())
         {
