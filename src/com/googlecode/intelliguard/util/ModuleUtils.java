@@ -21,10 +21,10 @@ public class ModuleUtils
     @Nullable
     public static File getModuleOutputDir(@NotNull Module module)
     {
-        VirtualFile outputDirectory = CompilerPaths.getModuleOutputDirectory(module, false);
-        if (outputDirectory != null)
+        String outputPath = CompilerPaths.getModuleOutputPath(module, false);
+        if (outputPath != null)
         {
-            return VfsUtil.virtualToIoFile(outputDirectory);
+            return new File(outputPath);
         }
         return null;
     }
