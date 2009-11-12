@@ -1,0 +1,16 @@
+#summary About IntelliGuard.
+
+= IntelliGuard =
+
+I am developing !IntelliGuard in my spare time. The idea of this project came up while looking for an obfuscator to be used with a Maven/Intellij project. There are a lot of obfuscators out there, at least according to Google, but not many are actually free and active. After searching for a while and testing a few I came up with two "winners"; !ProGuard and yGuard.
+
+!IntelliGuard is free and open source software. However, it is not a standalone program. In order benefit from this software it must be run as an IntelliJ IDEA plugin. IntelliJ IDEA on the other hand is not open source, and it is not free, but it is the best Java IDE out there.
+
+You have  the freedom to use the software for any purpose, to distribute it, to modify it, and to distribute modified versions of the software. It comes "as is" and without warranty of any kind. It is distributed under the terms of the Apache 2.0 license. 
+
+
+= Obfuscators =
+
+[http://www.yworks.com/en/products_yguard_about.html yGuard] is distributed under the yGuard Software License which allows for free usage and linking, but not for redistribution. yGuard users can fully benefit from all !IntelliGuard features, including executing the obfuscator from within IntelliJ IDEA. Since yGuard may not be distributed with the plugin, a convenient download link is provided in the 'Obfuscation Settings' form.
+
+[http://proguard.sourceforge.net/ ProGuard] is distributed under the terms of the GNU General Public License. !ProGuard is free but may not be linked with software that is not GPL-compliant. For !ProGuard users !IntelliGuards capabilities are limited to generating configuration files which can be used running !ProGuard externally.
