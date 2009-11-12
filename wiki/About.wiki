@@ -1,6 +1,7 @@
 #summary About IntelliGuard.
+#labels intelliguard
 
-= IntelliGuard =
+= !IntelliGuard =
 
 I am developing !IntelliGuard in my spare time. The idea of this project came up while looking for an obfuscator to be used with a Maven/Intellij project. There are a lot of obfuscators out there, at least according to Google, but not many are actually free and active. After searching for a while and testing a few I came up with two "winners"; !ProGuard and yGuard.
 
