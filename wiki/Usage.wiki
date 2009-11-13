@@ -1,3 +1,4 @@
 #summary How to use !IntelliGuard
+#sidebar TableOfContents
 
 == Usage ==
