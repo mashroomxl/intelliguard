@@ -1,3 +1,5 @@
 #summary How to use IntelliGuard
 
 == Usage ==
+
+http://intelliguard.googlecode.com/svn/trunk/resources/com/googlecode/intelliguard/guard_mask_16x16.png
