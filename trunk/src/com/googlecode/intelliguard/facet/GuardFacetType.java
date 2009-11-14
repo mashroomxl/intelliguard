@@ -36,6 +36,8 @@ import javax.swing.*;
 public class GuardFacetType extends FacetType<GuardFacet, GuardFacetConfiguration>
 {
     private static final GuardFacetType instance = new GuardFacetType();
+    private static final String JAVA_MODULE = "JAVA_MODULE";
+    private static final String PLUGIN_MODULE = "PLUGIN_MODULE";
 
     private GuardFacetType()
     {
@@ -65,16 +67,7 @@ public class GuardFacetType extends FacetType<GuardFacet, GuardFacetConfiguratio
 
     public boolean isSuitableModuleType(ModuleType moduleType)
     {
-        ModuleType[] registeredTypes = ModuleTypeManager.getInstance().getRegisteredTypes();
-
-        for (ModuleType registeredType : registeredTypes)
-        {
-            if ("JAVA_MODULE".equals(registeredType.getId()))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        final String moduleId = moduleType.getId();
+        return JAVA_MODULE.equals(moduleId) || PLUGIN_MODULE.equals(moduleId);
     }
 }
