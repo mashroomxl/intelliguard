@@ -2,4 +2,5 @@
 
 == Usage ==
 
-http://intelliguard.googlecode.com/svn/trunk/resources/com/googlecode/intelliguard/guard_mask_16x16.png
+  * Add Obfuscation facet to your Java module
+[http://code.google.com/p/intelliguard/source/browse/images/01_add_facet.png]
