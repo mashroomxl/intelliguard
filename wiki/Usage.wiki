@@ -29,9 +29,12 @@ If you haven't got yGuard there is also a button which redirects to yGuard downl
 
 You will still able to use !IntelliGuard for generating and exporting obfuscation settings regardless if you have yGuard installed.
 
-If your obfuscated jar file should be executable you may also specify the class which should be used as the _Main-Class_ attribute in the jar manifest. It can also be specified later (when running the 'Obfuscate module' action).
+If your obfuscated jar file should be executable you may also specify the class which should be used as the _Main-Class_ attribute in the jar manifest. Type the qualified class name or click the small button with three dots for a convenient class browser.
+The Main-Class can also be specified later (when running the 'Obfuscate module' action).
 
-Finally, click the *OK* button and you are done.
+[http://intelliguard.googlecode.com/svn/images/03_main_class.png]
+
+Finally, click the *OK* button in the facet settings form and you are done.
 
 ----
 
