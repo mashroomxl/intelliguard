@@ -1,7 +1,7 @@
 #summary How to use IntelliGuard
 
   * [Usage#Setting_up_IntelliGuard Installation]
-  * [Usage#Using_IntelliGuard Using IntelliGuard]
+  * [Usage#Configure_Obfuscation Configuring]
 
 First install !IntelliGuard with _IntelliJ IDEA plugin manager_. Search for *!IntelliGuard* among the available plugins, right-click on it and choose 'Download and install'. Then restart Intellij IDEA.
 
@@ -28,6 +28,15 @@ If your obfuscated jar file should be executable you may also specify the class 
 Finally, click the *OK* button and you are done.
 
 
-== Using !IntelliGuard ==
+
+== Configure Obfuscation ==
+
+By default all class, field and method names will be obfuscated unless specified not to, or, in the case of a method, it extends or implements a method from a class defined outside of the module (for example in a library class).
+
+Right-click in the editor gutter and choose 'Show Obfuscated symbols' in order to see which symbols will be obfuscated with current configuration. _Note: the gutter icons are toggled on a per-file basis._
 
 [http://intelliguard.googlecode.com/svn/images/05_toggle_gutter.png]
+
+Now you can start configuring and see what happens with teh gutter icons. Place the caret on any class, method or field symbol and hit *ALT+ENTER*:
+
+[http://intelliguard.googlecode.com/svn/images/06_alt_enter_class.png]
