@@ -1,4 +1,4 @@
 #summary Table of contents
 
-* [About About intelliGuard]
-* [Instructions How to use IntelliGuard]
+  * [About About IntelliGuard]
+  * [Usage Using IntelliGuard]
