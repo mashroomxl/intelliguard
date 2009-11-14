@@ -1,4 +1,5 @@
 #summary How to use IntelliGuard
+#sidebar TableOfContents
 
   * [Usage#Setting_up_IntelliGuard Installation]
   * [Usage#Configure_Obfuscation Configuring]
