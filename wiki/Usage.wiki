@@ -1,9 +1,26 @@
 #summary How to use IntelliGuard
 
-== Getting started ==
+First install !IntelliGuard with _IntelliJ IDEA plugin manager_. Search for *!IntelliGuard* among the available plugins, right-click on it and choose 'Download and install'. Then restart Intellij IDEA.
 
-=== Add Obfuscation facet to your Java module ===
+== Getting started with !IntelliGuard ==
+
+Add Obfuscation facet.
+
 [http://intelliguard.googlecode.com/svn/images/01_add_facet.png]
-=== Accept or edit main settings ===
+
+Accept or edit main settings.
+
 [http://intelliguard.googlecode.com/svn/images/02_facet_settings.png]
-If you obfuscate jars with !IntelliGuard this is the place to spcify yGuard installation path. If you haven't got yGuard there is a button which redirects to yGuad downolad page.
+
+If you want obfuscate jars with !IntelliGuard this is the place to specify your yGuard installation path. You can enter the jar path manually or you can browse the filesystem by clicking the small button with three dots.
+
+If you haven't got yGuard there is also a button which redirects to yGuard download page.
+
+[http://intelliguard.googlecode.com/svn/images/04_yguard.png]
+
+You will still able to use !IntelliGuard for generating and exporting obfuscation settings regardless if you have yGuard installed.
+
+If your obfuscated jar file should be executable you may also specify the class which should be used as the _Main-Class_ attribute in the jar manifest. It can also be specified later (when running the 'Obfuscate module' action).
+
+*Done*
+
