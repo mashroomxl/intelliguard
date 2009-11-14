@@ -1,6 +1,7 @@
 #summary How to use IntelliGuard
 
-[Usage#Setting_up_!IntelliGuard Installation]
+  * [Usage#Setting_up_IntelliGuard Installation]
+  * [Usage#Using_IntelliGuard Using IntelliGuard]
 
 First install !IntelliGuard with _IntelliJ IDEA plugin manager_. Search for *!IntelliGuard* among the available plugins, right-click on it and choose 'Download and install'. Then restart Intellij IDEA.
 
@@ -25,3 +26,8 @@ You will still able to use !IntelliGuard for generating and exporting obfuscatio
 If your obfuscated jar file should be executable you may also specify the class which should be used as the _Main-Class_ attribute in the jar manifest. It can also be specified later (when running the 'Obfuscate module' action).
 
 Finally, click the *OK* button and you are done.
+
+
+== Using !IntelliGuard ==
+
+[http://intelliguard.googlecode.com/svn/images/05_toggle_gutter.png]
