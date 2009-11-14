@@ -57,5 +57,12 @@ That's all there is to configuring your obfuscation settings!
 
 This step explains how to actually build an obfuscated jar file. In order to do this you must have yGuard installed on your computer and have the yguard.jar archive path set up in the Obfuscation facet settings (see the [Usage#Setting_up_IntelliGuard Installation] chapter above).
 
+You can find the 'Obfuscate module' action located in the _Build_ menu.
 
 [http://intelliguard.googlecode.com/svn/images/08_ofuscate_menu_action.png]
+
+This brings up an 'Obfuscate Jar' dialog.
+
+[http://intelliguard.googlecode.com/svn/images/09_build_jar_dialog.png]
+
+To be continued...
