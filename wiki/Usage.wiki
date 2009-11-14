@@ -22,5 +22,4 @@ You will still able to use !IntelliGuard for generating and exporting obfuscatio
 
 If your obfuscated jar file should be executable you may also specify the class which should be used as the _Main-Class_ attribute in the jar manifest. It can also be specified later (when running the 'Obfuscate module' action).
 
-*Done*
-
+Finally, click the *OK* button and you are done.
