@@ -1,6 +1,9 @@
 #summary How to use IntelliGuard
 
-== Usage ==
+== Getting started ==
 
-  * Add Obfuscation facet to your Java module
+=== Add Obfuscation facet to your Java module ===
 [http://intelliguard.googlecode.com/svn/images/01_add_facet.png]
+=== Accept or edit main settings ===
+[http://intelliguard.googlecode.com/svn/images/02_facet_settings.png]
+If you obfuscate jars with !IntelliGuard this is the place to spcify yGuard installation path. If you haven't got yGuard there is a button which redirects to yGuad downolad page.
