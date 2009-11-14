@@ -7,6 +7,8 @@
 
 First install !IntelliGuard with _IntelliJ IDEA plugin manager_. Search for *!IntelliGuard* among the available plugins, right-click on it and choose 'Download and install'. Then restart Intellij IDEA.
 
+----
+
 == Setting up !IntelliGuard ==
 
 Add Obfuscation facet.
@@ -29,7 +31,7 @@ If your obfuscated jar file should be executable you may also specify the class 
 
 Finally, click the *OK* button and you are done.
 
-
+----
 
 == Configure Obfuscation ==
 
@@ -49,5 +51,11 @@ or
 
 That's all there is to configuring your obfuscation settings!
 
+----
 
 == Obfuscate Jar ==
+
+This step explains how to actually build an obfuscated jar file. In order to do this you must have yGuard installed on your computer and have the yguard.jar archive path set up in the Obfuscation facet settings (see the [Usage#Setting_up_IntelliGuard Installation] chapter above).
+
+
+[http://intelliguard.googlecode.com/svn/images/08_ofuscate_menu_action.png]
