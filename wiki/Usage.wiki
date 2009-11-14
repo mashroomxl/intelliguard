@@ -1,5 +1,7 @@
 #summary How to use IntelliGuard
 
+[Usage#Setting_up_!IntelliGuard Installation]
+
 First install !IntelliGuard with _IntelliJ IDEA plugin manager_. Search for *!IntelliGuard* among the available plugins, right-click on it and choose 'Download and install'. Then restart Intellij IDEA.
 
 == Setting up !IntelliGuard ==
