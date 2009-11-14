@@ -3,4 +3,4 @@
 == Usage ==
 
   * Add Obfuscation facet to your Java module
-[http://code.google.com/p/intelliguard/source/browse/images/01_add_facet.png]
+[http://intelliguard.googlecode.com/svn/images/01_add_facet.png]
