@@ -22,12 +22,26 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
+import com.intellij.openapi.vfs.VfsUtil;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.util.JDOMUtil;
+import com.intellij.ide.plugins.PluginManager;
+import com.intellij.ide.plugins.PluginBean;
+import com.intellij.util.xmlb.XmlSerializer;
+import com.intellij.util.xmlb.JDOMXIncluder;
 import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
 import com.googlecode.intelliguard.facet.GuardFacet;
 import com.googlecode.intelliguard.gutter.GuardMarker;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,6 +52,7 @@ import org.jetbrains.annotations.Nullable;
 public abstract class GuardInspectionBase extends LocalInspectionTool
 {
     private GuardFacetConfiguration localConfiguration;
+    private PluginBean localPluginDescriptor;
 
     @Nls
     @NotNull
@@ -57,6 +72,8 @@ public abstract class GuardInspectionBase extends LocalInspectionTool
     {
         this.localConfiguration = getConfiguration(session.getFile());
 
+        this.localPluginDescriptor = getPluginDescriptor(session.getFile());
+
         super.inspectionStarted(session);
     }
 
@@ -65,7 +82,52 @@ public abstract class GuardInspectionBase extends LocalInspectionTool
     {
         this.localConfiguration = null;
 
+        this.localPluginDescriptor = null;
+
         super.inspectionFinished(session);
+    }
+
+    @Nullable
+    public static PluginBean getPluginDescriptor(PsiElement element)
+    {
+        final Module module = ModuleUtil.findModuleForPsiElement(element);
+        if (module == null)
+        {
+            return null;
+        }
+        if (!"PLUGIN_MODULE".equals(module.getModuleType().getId()))
+        {
+            return null;
+        }
+        final VirtualFile moduleFile = module.getModuleFile();
+        if (moduleFile == null)
+        {
+            return null;
+        }
+        final VirtualFile moduleDir = moduleFile.getParent();
+        if (moduleDir == null)
+        {
+            return null;
+        }
+        final File moduleIoDir = VfsUtil.virtualToIoFile(moduleDir);
+
+        try
+        {
+            final URL url = new File(new File(moduleIoDir, PluginManager.META_INF), PluginManager.PLUGIN_XML).toURI().toURL();
+            Document document = JDOMUtil.loadDocument(url);
+            document = JDOMXIncluder.resolve(document, url.toExternalForm());
+            final Element rootElement = document.getRootElement();
+            return XmlSerializer.deserialize(rootElement, PluginBean.class);
+        }
+        catch (JDOMException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Nullable
@@ -84,6 +146,12 @@ public abstract class GuardInspectionBase extends LocalInspectionTool
     protected GuardFacetConfiguration getLocalConfiguration()
     {
         return localConfiguration;
+    }
+
+    @Nullable
+    protected PluginBean getLocalPluginDescriptor()
+    {
+        return localPluginDescriptor;
     }
 
     public static void alertGuardMarkers(PsiElement element)
