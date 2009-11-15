@@ -20,11 +20,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nls;
 import com.intellij.psi.*;
 import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.codeInspection.ProblemHighlightType;
+import com.intellij.codeHighlighting.HighlightDisplayLevel;
 import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
 import com.googlecode.intelliguard.model.Keeper;
 import com.googlecode.intelliguard.util.PsiUtils;
 import com.googlecode.intelliguard.util.InspectionUtils;
+
+import java.text.MessageFormat;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,7 +34,7 @@ import com.googlecode.intelliguard.util.InspectionUtils;
  * Date: 2009-nov-08
  * Time: 19:56:13
  */
-public class ObfuscationProblemsInspection extends GuardInspectionBase
+public class SerializationProblemsInspection extends GuardInspectionBase
 {
     private static final String JAVA_IO_SERIALIZABLE = "java.io.Serializable";
     private static final String SERIAL_VERSION_UID = "serialVersionUID";
@@ -46,18 +48,20 @@ public class ObfuscationProblemsInspection extends GuardInspectionBase
     @NotNull
     public String getDisplayName()
     {
-        return "Obfuscation Problems";
+        return "Serialization Problems";
     }
 
     @NotNull
     public String getShortName()
     {
-        return "Obfuscation Problems";
+        return "Serialization Problems";
     }
 
-    private ProblemHighlightType myProblemHighlightType()
+    @NotNull
+    @Override
+    public HighlightDisplayLevel getDefaultLevel()
     {
-        return ProblemHighlightType.GENERIC_ERROR_OR_WARNING;
+        return HighlightDisplayLevel.WARNING;
     }
 
     @NotNull
@@ -90,7 +94,8 @@ public class ObfuscationProblemsInspection extends GuardInspectionBase
                             final String name = PsiUtils.getKeeperName(field);
                             if (SERIAL_VERSION_UID.equals(name) || SERIAL_PERSISTENT_FIELDS.equals(name))
                             {
-                                holder.registerProblem(InspectionUtils.getNameIdentifierElement(field), "Class implements " + JAVA_IO_SERIALIZABLE + " but field should not be obfuscated in order for serialization to work.", myProblemHighlightType());
+                                holder.registerProblem(InspectionUtils.getNameIdentifierElement(field),
+                                        MessageFormat.format("Class implements {0} but field should not be obfuscated in order for serialization to work.", JAVA_IO_SERIALIZABLE));
                             }
                         }
                     }
@@ -116,7 +121,8 @@ public class ObfuscationProblemsInspection extends GuardInspectionBase
                                     || METHOD_READ_RESOLVE.equals(name)
                                     || METHOD_WRITE_REPLACE.equals(name))
                             {
-                                holder.registerProblem(InspectionUtils.getNameIdentifierElement(method), "Class implements " + JAVA_IO_SERIALIZABLE + " but method should not be obfuscated in order for serialization to work.", myProblemHighlightType());
+                                holder.registerProblem(InspectionUtils.getNameIdentifierElement(method),
+                                        MessageFormat.format("Class implements {0} but method should not be obfuscated in order for serialization to work.", JAVA_IO_SERIALIZABLE));
                             }
                         }
                     }
