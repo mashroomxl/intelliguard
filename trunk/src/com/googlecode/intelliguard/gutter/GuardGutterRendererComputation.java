@@ -36,6 +36,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * User: ronnie
  * Date: 2009-nov-09
@@ -45,7 +47,7 @@ public class GuardGutterRendererComputation implements Computable<List<GuardGutt
 {
     private PsiFile psiFile;
 
-    public GuardGutterRendererComputation(PsiFile psiFile)
+    public GuardGutterRendererComputation(@NotNull PsiFile psiFile)
     {
         this.psiFile = psiFile;
     }
@@ -68,7 +70,6 @@ public class GuardGutterRendererComputation implements Computable<List<GuardGutt
         {
             return Collections.emptyList();
         }
-        final Collection<Keeper> keepers = guardFacet.getConfiguration().keepers;
 
         psiFile.accept(new JavaRecursiveElementVisitor()
         {

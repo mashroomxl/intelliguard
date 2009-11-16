@@ -23,6 +23,7 @@ import com.googlecode.intelliguard.generator.YGuardGenerator;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayInputStream;
 
@@ -37,7 +38,7 @@ public class ObfuscateTask implements Runnable
     private RunProgress runProgress;
     private GuardFacet guardFacet;
 
-    public ObfuscateTask(final RunProgress runProgress, final GuardFacet guardFacet)
+    public ObfuscateTask(@NotNull final RunProgress runProgress, @NotNull final GuardFacet guardFacet)
     {
         this.runProgress = runProgress;
         this.guardFacet = guardFacet;

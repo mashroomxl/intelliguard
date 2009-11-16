@@ -28,6 +28,8 @@ import java.text.MessageFormat;
 import java.io.File;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Ronnie
@@ -38,7 +40,7 @@ public class YGuardGenerator
 {
     public static final String YGUARD_TARGET_NAME = "yguard";
 
-    public static String generateBuildXml(GuardFacet facet)
+    public static String generateBuildXml(@NotNull GuardFacet facet)
     {
         final GuardFacetConfiguration configuration = facet.getConfiguration();
         final String inFile = new File(configuration.inFile).getAbsolutePath();

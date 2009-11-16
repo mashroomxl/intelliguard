@@ -67,6 +67,10 @@ public class GuardFacetType extends FacetType<GuardFacet, GuardFacetConfiguratio
 
     public boolean isSuitableModuleType(ModuleType moduleType)
     {
+        if (moduleType == null)
+        {
+            return false;
+        }
         final String moduleId = moduleType.getId();
         return JAVA_MODULE.equals(moduleId) || PLUGIN_MODULE.equals(moduleId);
     }

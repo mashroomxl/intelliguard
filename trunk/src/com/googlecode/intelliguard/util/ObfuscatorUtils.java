@@ -21,6 +21,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.JarFileSystem;
 import com.intellij.openapi.util.io.FileUtil;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class ObfuscatorUtils
 {
-    public static ValidationResult checkYGuard(final String jarPath)
+    public static ValidationResult checkYGuard(@NotNull final String jarPath)
     {
         final VirtualFile jarFile = findJarFile(jarPath);
         if (jarFile == null)
@@ -48,7 +49,7 @@ public class ObfuscatorUtils
     }
 
     @Nullable
-    private static VirtualFile findJarFile(final String jarPath)
+    private static VirtualFile findJarFile(@NotNull final String jarPath)
     {
         return JarFileSystem.getInstance().refreshAndFindFileByPath(FileUtil.toSystemIndependentName(jarPath) + JarFileSystem.JAR_SEPARATOR);
     }

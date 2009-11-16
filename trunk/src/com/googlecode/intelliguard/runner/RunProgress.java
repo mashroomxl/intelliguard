@@ -49,7 +49,7 @@ public class RunProgress
         return errors == 0;
     }
 
-    public void markMessage(String text)
+    public void markMessage(@Nullable String text)
     {
         if (text == null)
         {

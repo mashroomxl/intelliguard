@@ -38,6 +38,8 @@ import java.awt.event.ActionEvent;
 import java.awt.*;
 import java.io.File;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Ronnie
@@ -60,7 +62,7 @@ public class JarOptionsForm
     private static final Icon MODULE_ICON = IconLoader.getIcon("/nodes/ModuleClosed.png");
     private static final Icon JAR_ICON = IconLoader.getIcon("/fileTypes/archive.png");
 
-    public JarOptionsForm(GuardFacet guardFacet)
+    public JarOptionsForm(@NotNull GuardFacet guardFacet)
     {
         final Module module = guardFacet.getModule();
         final GuardFacetConfiguration facetConfiguration = guardFacet.getConfiguration();

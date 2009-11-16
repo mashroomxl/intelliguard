@@ -54,7 +54,7 @@ public class GuardGutterRenderer extends GutterIconRenderer
         return icon;
     }
 
-    public RangeHighlighter addLineHighlighter(MarkupModel markupModel)
+    public RangeHighlighter addLineHighlighter(@NotNull MarkupModel markupModel)
     {
         return markupModel.addRangeHighlighter(range.getStartOffset(), range.getEndOffset(), HighlighterLayer.LAST, null, HighlighterTargetArea.LINES_IN_RANGE);
     }
