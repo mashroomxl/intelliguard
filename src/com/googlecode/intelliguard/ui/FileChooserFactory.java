@@ -22,6 +22,8 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Ronnie
@@ -99,7 +101,7 @@ public class FileChooserFactory
      * @param module the module
      * @return a filechooser instance
      */
-    public static JFileChooser createModuleFileChooser(final Module module)
+    public static JFileChooser createModuleFileChooser(@NotNull final Module module)
     {
         String moduleFilePath = module.getModuleFilePath();
         final File moduleDirectory = new File(moduleFilePath).getParentFile();

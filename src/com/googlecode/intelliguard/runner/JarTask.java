@@ -48,7 +48,7 @@ public class JarTask implements Runnable
     private String mainClass;
     private File outFile;
 
-    public JarTask(final RunProgress runProgress, final Module module, final JarConfig jarConfig, final String mainClass, final File outFile)
+    public JarTask(@NotNull final RunProgress runProgress, @NotNull final Module module, @NotNull final JarConfig jarConfig, @Nullable final String mainClass, @NotNull final File outFile)
     {
         this.runProgress = runProgress;
         this.module = module;
@@ -110,7 +110,7 @@ public class JarTask implements Runnable
         }
     }
     
-    private void jarDirectory(JarOutputStream jos, String directoryName, String baseDir)
+    private void jarDirectory(@NotNull JarOutputStream jos, @NotNull String directoryName, @NotNull String baseDir)
     {
         File dirobject = new File(directoryName);
         if (dirobject.exists())
@@ -133,7 +133,7 @@ public class JarTask implements Runnable
         }
     }
 
-    private void jarFile(JarOutputStream jos, String filePath, String baseDir)
+    private void jarFile(@NotNull JarOutputStream jos, @NotNull String filePath, @NotNull String baseDir)
     {
         try
         {

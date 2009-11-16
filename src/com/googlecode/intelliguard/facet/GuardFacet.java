@@ -45,7 +45,7 @@ public class GuardFacet extends Facet<GuardFacetConfiguration>
     }
 
     @Nullable
-    public static GuardFacet getInstance(Module module)
+    public static GuardFacet getInstance(@NotNull Module module)
     {
         return FacetManager.getInstance(module).getFacetByType(ID);
     }

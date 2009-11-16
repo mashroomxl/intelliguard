@@ -59,7 +59,7 @@ public class PsiUtils
         return sb.toString();
     }
 
-    private static String simplify(String text)
+    private static String simplify(@NotNull String text)
     {
         while (text.contains(">"))
         {

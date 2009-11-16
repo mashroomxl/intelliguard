@@ -88,7 +88,7 @@ public abstract class GuardInspectionBase extends LocalInspectionTool
     }
 
     @Nullable
-    public static PluginBean getPluginDescriptor(PsiElement element)
+    public static PluginBean getPluginDescriptor(@NotNull PsiElement element)
     {
         final Module module = ModuleUtil.findModuleForPsiElement(element);
         if (module == null)
@@ -113,6 +113,7 @@ public abstract class GuardInspectionBase extends LocalInspectionTool
 
         try
         {
+            // Extensions are private in IdeaPluginDescriptorImpl so we need to parse the xml
             final URL url = new File(new File(moduleIoDir, PluginManager.META_INF), PluginManager.PLUGIN_XML).toURI().toURL();
             Document document = JDOMUtil.loadDocument(url);
             document = JDOMXIncluder.resolve(document, url.toExternalForm());
@@ -131,7 +132,7 @@ public abstract class GuardInspectionBase extends LocalInspectionTool
     }
 
     @Nullable
-    public static GuardFacetConfiguration getConfiguration(PsiElement element)
+    public static GuardFacetConfiguration getConfiguration(@NotNull PsiElement element)
     {
         Module module = ModuleUtil.findModuleForPsiElement(element);
         if (module == null)
@@ -154,7 +155,7 @@ public abstract class GuardInspectionBase extends LocalInspectionTool
         return localPluginDescriptor;
     }
 
-    public static void alertGuardMarkers(PsiElement element)
+    public static void alertGuardMarkers(@NotNull PsiElement element)
     {
         final PsiFile psiFile = element.getContainingFile();
         final GuardMarker marker = GuardMarker.getGuardMarker(psiFile);

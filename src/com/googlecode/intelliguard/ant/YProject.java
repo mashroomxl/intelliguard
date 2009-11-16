@@ -19,6 +19,7 @@ package com.googlecode.intelliguard.ant;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.BuildEvent;
+import org.jetbrains.annotations.NotNull;
 import com.googlecode.intelliguard.runner.RunProgress;
 
 /**
@@ -29,7 +30,7 @@ import com.googlecode.intelliguard.runner.RunProgress;
  */
 public class YProject extends Project
 {
-    public YProject(final RunProgress runProgress)
+    public YProject(@NotNull final RunProgress runProgress)
     {
 
         addBuildListener(new BuildListener()

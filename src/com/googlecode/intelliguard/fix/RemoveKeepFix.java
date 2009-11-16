@@ -37,7 +37,7 @@ public class RemoveKeepFix implements LocalQuickFix
     private final Keeper keeper;
     private final PsiElement element;
 
-    public RemoveKeepFix(final GuardFacetConfiguration configuration, final Keeper keeper, final PsiElement element)
+    public RemoveKeepFix(@NotNull final GuardFacetConfiguration configuration, @NotNull final Keeper keeper, @NotNull final PsiElement element)
     {
         this.configuration = configuration;
         this.keeper = keeper;

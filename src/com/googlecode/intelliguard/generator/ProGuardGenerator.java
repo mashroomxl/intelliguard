@@ -28,6 +28,8 @@ import java.io.File;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * User: ronnie
  * Date: 2009-nov-09
@@ -35,7 +37,7 @@ import java.util.List;
  */
 public class ProGuardGenerator
 {
-    public static String generatePro(GuardFacet facet)
+    public static String generatePro(@NotNull GuardFacet facet)
     {
         final GuardFacetConfiguration configuration = facet.getConfiguration();
         final String inFile = new File(configuration.inFile).getAbsolutePath();

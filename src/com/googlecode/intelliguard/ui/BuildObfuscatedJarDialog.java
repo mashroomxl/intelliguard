@@ -18,6 +18,7 @@ package com.googlecode.intelliguard.ui;
 
 import com.googlecode.intelliguard.facet.GuardFacet;
 import com.intellij.openapi.ui.DialogBuilder;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,7 +28,7 @@ import com.intellij.openapi.ui.DialogBuilder;
  */
 public class BuildObfuscatedJarDialog
 {
-    public static JarOptionsForm show(GuardFacet guardFacet)
+    public static JarOptionsForm show(@NotNull GuardFacet guardFacet)
     {
         DialogBuilder builder = new DialogBuilder(guardFacet.getModule().getProject());
         JarOptionsForm jarOptionsForm = new JarOptionsForm(guardFacet);

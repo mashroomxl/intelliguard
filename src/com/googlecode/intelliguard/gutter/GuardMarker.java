@@ -26,6 +26,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +42,7 @@ public class GuardMarker
 
     private final PsiFile psiFile;
 
-    public GuardMarker(PsiFile psiFile)
+    public GuardMarker(@NotNull PsiFile psiFile)
     {
         this.psiFile = psiFile;
     }

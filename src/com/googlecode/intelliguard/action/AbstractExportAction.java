@@ -74,7 +74,7 @@ public abstract class AbstractExportAction extends AbstractGuardAction
         UiUtils.showInfoBallon(module.getProject(), "Generated obfuscation settings");
     }
 
-    private void dumpFile(String content, File file)
+    private void dumpFile(@NotNull String content, @NotNull File file)
     {
         if (!NL.equals(LINE_SEP))
         {

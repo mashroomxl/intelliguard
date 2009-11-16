@@ -35,6 +35,8 @@ import javax.swing.event.DocumentEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Ronnie
@@ -60,7 +62,7 @@ public class YFacetConfigurationForm
     private TextFieldWithBrowseButton yJarPath;
     private static final String YGUARD_DOWNLOAD_URL = "http://www.yworks.com/en/products_yguard_about.html";
 
-    public YFacetConfigurationForm(final FacetEditorContext editorContext, FacetValidatorsManager validatorsManager, final GuardFacetConfiguration state)
+    public YFacetConfigurationForm(@NotNull final FacetEditorContext editorContext, @NotNull final FacetValidatorsManager validatorsManager, @NotNull final GuardFacetConfiguration state)
     {
         sourceFileCheckBox.setSelected(state.sourcefile);
         linenumberTableCheckBox.setSelected(state.linenumbertable);
