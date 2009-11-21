@@ -40,8 +40,8 @@ public class ProGuardGenerator
     public static String generatePro(@NotNull GuardFacet facet)
     {
         final GuardFacetConfiguration configuration = facet.getConfiguration();
-        final String inFile = new File(configuration.inFile).getAbsolutePath();
-        final String outFile = new File(configuration.outFile).getAbsolutePath();
+        final String inFile = configuration.inFile != null ? new File(configuration.inFile).getAbsolutePath() : "injar.jar";
+        final String outFile = configuration.outFile != null ? new File(configuration.outFile).getAbsolutePath() : "outjar.jar";
 
         final StringBuilder sb = new StringBuilder();
 

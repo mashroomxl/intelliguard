@@ -43,11 +43,11 @@ public class YGuardGenerator
     public static String generateBuildXml(@NotNull GuardFacet facet)
     {
         final GuardFacetConfiguration configuration = facet.getConfiguration();
-        final String inFile = new File(configuration.inFile).getAbsolutePath();
-        final File file = new File(configuration.outFile);
-        final String outFile = file.getAbsolutePath();
+        final String inFile = configuration.inFile != null ? new File(configuration.inFile).getAbsolutePath() : "injar.jar";
+        final File file = configuration.outFile != null ? new File(configuration.outFile) : null;
+        final String outFile = file != null ? file.getAbsolutePath() : "outjar.jar";
         final String yguardFile = new File(configuration.yGuardJar).getAbsolutePath();
-        final String logFile = new File(file.getParent(), file.getName() + "-yguard.xml").getAbsolutePath();
+        final String logFile = file != null ? new File(file.getParent(), file.getName() + "-yguard.xml").getAbsolutePath() : "logfile.xml";
 
         final StringBuilder sb = new StringBuilder();
 
