@@ -40,11 +40,15 @@ import java.util.ArrayList;
  */
 public class GuardInspection extends GuardInspectionBase
 {
+    private static final String STATIC_DESCRIPTION = "This inspection detects if a class, method or field will be " +
+            "obfuscated according to the current configuration, and offers quick-fixes to either keep from obfuscation " +
+            "or remove an existing keeper.";
+
     @Nls
     @NotNull
     public String getDisplayName()
     {
-        return "Guard Inspection";
+        return "Obfuscation options";
     }
 
     @NotNull
@@ -53,7 +57,12 @@ public class GuardInspection extends GuardInspectionBase
         return "GuardInspection";
     }
 
-    
+    @Override
+    public String getStaticDescription()
+    {
+        return STATIC_DESCRIPTION;
+    }
+
     @NotNull
     @Override
     public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, final boolean isOnTheFly)
