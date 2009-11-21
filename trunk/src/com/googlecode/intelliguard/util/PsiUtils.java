@@ -102,6 +102,10 @@ public class PsiUtils
         {
             return ((PsiField) element).getName();
         }
+        else if (element instanceof PsiPackage)
+        {
+            return ((PsiPackage) element).getQualifiedName();
+        }
 
         return null;
     }
