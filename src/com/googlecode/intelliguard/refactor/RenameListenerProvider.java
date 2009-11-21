@@ -18,10 +18,7 @@ package com.googlecode.intelliguard.refactor;
 
 import com.intellij.refactoring.listeners.RefactoringElementListenerProvider;
 import com.intellij.refactoring.listeners.RefactoringElementListener;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiField;
+import com.intellij.psi.*;
 import com.googlecode.intelliguard.inspection.GuardInspectionBase;
 import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
 import com.googlecode.intelliguard.model.Keeper;
@@ -38,7 +35,7 @@ public class RenameListenerProvider implements RefactoringElementListenerProvide
 {
     public RefactoringElementListener getListener(final PsiElement element)
     {
-        if (element instanceof PsiClass || element instanceof PsiMethod || element instanceof PsiField)
+        if (element instanceof PsiPackage || element instanceof PsiClass || element instanceof PsiMethod || element instanceof PsiField)
         {
             final String oldName = PsiUtils.getKeeperName(element);
             if (oldName == null)
@@ -61,45 +58,72 @@ public class RenameListenerProvider implements RefactoringElementListenerProvide
 
                 public void elementRenamed(@NotNull PsiElement newElement)
                 {
-                    if (newElement instanceof PsiClass || newElement instanceof PsiMethod || newElement instanceof PsiField)
+                    final String newName = PsiUtils.getKeeperName(newElement);
+                    if (newName == null)
                     {
-                        final String newName = PsiUtils.getKeeperName(newElement);
-                        if (newName == null)
-                        {
-                            return;
-                        }
+                        return;
+                    }
 
-                        // renamed Main-Class
-                        if (newElement instanceof PsiClass && oldName.equals(configuration.mainclass))
-                        {
-                            configuration.mainclass = newName;
-                        }
-
+                    // renamed package
+                    if (newElement instanceof PsiPackage)
+                    {
                         for (Keeper keeper : configuration.keepers)
                         {
-                            if (newElement instanceof PsiClass)
+                            if (keeper.getType() == Keeper.Type.CLASS)
                             {
-                                if (keeper.getType() == Keeper.Type.CLASS)
+                                final String clazz = keeper.getName();
+                                String oldPackage = getPackageName(clazz);
+                                if (oldPackage.equals(oldName))
                                 {
-                                    if (oldName.equals(keeper.getName()))
-                                    {
-                                        keeper.setName(newName);
-                                    }
-                                }
-                                else
-                                {
-                                    if (oldName.equals(keeper.getClazz()))
-                                    {
-                                        keeper.setClazz(newName);
-                                    }
+                                    keeper.setName(newName + "." + getSimpleName(clazz));
                                 }
                             }
                             else
+                            {
+                                final String clazz = keeper.getClazz();
+                                if (clazz != null)
+                                {
+                                    String oldPackage = getPackageName(clazz);
+                                    if (oldPackage.equals(oldName))
+                                    {
+                                        keeper.setClazz(newName + "." + getSimpleName(clazz));
+                                    }
+                                }
+                            }
+                        }
+                        return;
+                    }
+
+                    // renamed Main-Class
+                    if (newElement instanceof PsiClass && oldName.equals(configuration.mainclass))
+                    {
+                        configuration.mainclass = newName;
+                    }
+
+                    for (Keeper keeper : configuration.keepers)
+                    {
+                        if (newElement instanceof PsiClass)
+                        {
+                            if (keeper.getType() == Keeper.Type.CLASS)
                             {
                                 if (oldName.equals(keeper.getName()))
                                 {
                                     keeper.setName(newName);
                                 }
+                            }
+                            else
+                            {
+                                if (oldName.equals(keeper.getClazz()))
+                                {
+                                    keeper.setClazz(newName);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (oldName.equals(keeper.getName()))
+                            {
+                                keeper.setName(newName);
                             }
                         }
                     }
@@ -107,5 +131,15 @@ public class RenameListenerProvider implements RefactoringElementListenerProvide
             };
         }
         return null;
+    }
+
+    private String getSimpleName(String clazz)
+    {
+        return clazz.substring(clazz.lastIndexOf('.') + 1);
+    }
+
+    private String getPackageName(String clazz)
+    {
+        return clazz.indexOf('.') != -1 ? clazz.substring(0, clazz.lastIndexOf('.')) : clazz;
     }
 }

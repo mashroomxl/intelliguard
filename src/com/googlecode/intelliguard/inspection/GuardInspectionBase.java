@@ -20,6 +20,9 @@ import com.intellij.codeInspection.LocalInspectionTool;
 import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiPackage;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.vfs.VfsUtil;
@@ -137,8 +140,25 @@ public abstract class GuardInspectionBase extends LocalInspectionTool
         Module module = ModuleUtil.findModuleForPsiElement(element);
         if (module == null)
         {
+            // ModuleUtil does not find module for a package so we search classes in package until we find a module for one
+            if (element instanceof PsiPackage)
+            {
+                final PsiClass[] classesInProjectPackage = ((PsiPackage) element).getClasses(GlobalSearchScope.allScope(element.getProject()));
+                for (PsiClass psiClass : classesInProjectPackage)
+                {
+                    module = ModuleUtil.findModuleForPsiElement(psiClass);
+                    if (module != null)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+        if (module == null)
+        {
             return null;
         }
+
         GuardFacet guardFacet = GuardFacet.getInstance(module);
         return guardFacet != null ? guardFacet.getConfiguration() : null;
     }
