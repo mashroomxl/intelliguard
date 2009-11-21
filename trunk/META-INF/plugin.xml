@@ -23,6 +23,7 @@
         <ul>0.9.4
             <li>Inspections for reflection issues with servlets, applets, etcetera</li>
             <li>J2ME support</li>
+            <li>Fixed listener for renaming of packages</li>
         </ul>
         <ul>0.9.3
             <li>Inspections for plugin development</li>
