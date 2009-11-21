@@ -36,6 +36,8 @@ import java.text.MessageFormat;
  */
 public class SerializationProblemsInspection extends GuardInspectionBase
 {
+    private static final String STATIC_DESCRIPTION = "This inspection detects fields and methods in serializable " +
+            "classes which are used for serialization and must have their exact signature kept.";
     private static final String JAVA_IO_SERIALIZABLE = "java.io.Serializable";
     private static final String SERIAL_VERSION_UID = "serialVersionUID";
     private static final String SERIAL_PERSISTENT_FIELDS = "serialPersistentFields";
@@ -48,7 +50,7 @@ public class SerializationProblemsInspection extends GuardInspectionBase
     @NotNull
     public String getDisplayName()
     {
-        return "Serialization Problems";
+        return "Serialization problems";
     }
 
     @NotNull
@@ -57,11 +59,10 @@ public class SerializationProblemsInspection extends GuardInspectionBase
         return "Serialization Problems";
     }
 
-    @NotNull
     @Override
-    public HighlightDisplayLevel getDefaultLevel()
+    public String getStaticDescription()
     {
-        return HighlightDisplayLevel.WARNING;
+        return STATIC_DESCRIPTION;
     }
 
     @NotNull

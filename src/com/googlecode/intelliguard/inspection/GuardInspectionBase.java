@@ -58,7 +58,7 @@ public abstract class GuardInspectionBase extends LocalInspectionTool
     @NotNull
     public String getGroupDisplayName()
     {
-        return "IntelliGuard";
+        return "Obfuscation";
     }
 
     @Override

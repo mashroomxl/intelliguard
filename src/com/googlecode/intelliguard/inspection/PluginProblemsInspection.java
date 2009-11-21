@@ -45,6 +45,10 @@ import java.text.MessageFormat;
  */
 public class PluginProblemsInspection extends GuardInspectionBase
 {
+    private static final String STATIC_DESCRIPTION = "This inspection aids plugin developers and detects classes which " +
+            "are declared in plugin.xml. These classes can be components, actions or extensions, and their names should " +
+            "not be obfuscated in order for the plugin to load correctly.";
+
     @Nls
     @NotNull
     public String getDisplayName()
@@ -58,11 +62,10 @@ public class PluginProblemsInspection extends GuardInspectionBase
         return "Plugin descriptor problems";
     }
 
-    @NotNull
     @Override
-    public HighlightDisplayLevel getDefaultLevel()
+    public String getStaticDescription()
     {
-        return HighlightDisplayLevel.ERROR;
+        return STATIC_DESCRIPTION;
     }
 
     @NotNull
@@ -114,27 +117,27 @@ public class PluginProblemsInspection extends GuardInspectionBase
                         if (applicationComponentClasses.contains(className))
                         {
                             holder.registerProblem(InspectionUtils.getNameIdentifierElement(aClass),
-                                    MessageFormat.format("Class {0} is listed as an ApplicationComponent in {1} and must not be obfuscated", className, PluginManager.PLUGIN_XML));
+                                    MessageFormat.format("Class {0} is listed as an ApplicationComponent in {1} and should not be obfuscated", className, PluginManager.PLUGIN_XML));
                         }
                         if (projectComponentClasses.contains(className))
                         {
                             holder.registerProblem(InspectionUtils.getNameIdentifierElement(aClass),
-                                    MessageFormat.format("Class {0} is listed as a ProjectComponent in {1} and must not be obfuscated", className, PluginManager.PLUGIN_XML));
+                                    MessageFormat.format("Class {0} is listed as a ProjectComponent in {1} and should not be obfuscated", className, PluginManager.PLUGIN_XML));
                         }
                         if (moduleComponentClasses.contains(className))
                         {
                             holder.registerProblem(InspectionUtils.getNameIdentifierElement(aClass),
-                                    MessageFormat.format("Class {0} is listed as a ModuleComponent in {1} and must not be obfuscated", className, PluginManager.PLUGIN_XML));
+                                    MessageFormat.format("Class {0} is listed as a ModuleComponent in {1} and should not be obfuscated", className, PluginManager.PLUGIN_XML));
                         }
                         if (actionClasses.contains(className))
                         {
                             holder.registerProblem(InspectionUtils.getNameIdentifierElement(aClass),
-                                    MessageFormat.format("Class {0} is listed as an Action in {1} and must not be obfuscated", className, PluginManager.PLUGIN_XML));
+                                    MessageFormat.format("Class {0} is listed as an Action in {1} and should not be obfuscated", className, PluginManager.PLUGIN_XML));
                         }
                         if (extensionClasses.contains(className))
                         {
                             holder.registerProblem(InspectionUtils.getNameIdentifierElement(aClass),
-                                    MessageFormat.format("Class {0} is listed as an Extension in {1} and must not be obfuscated", className, PluginManager.PLUGIN_XML));
+                                    MessageFormat.format("Class {0} is listed as an Extension in {1} and should not be obfuscated", className, PluginManager.PLUGIN_XML));
                         }
                     }
                 }
