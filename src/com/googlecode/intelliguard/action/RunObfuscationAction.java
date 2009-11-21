@@ -75,7 +75,7 @@ public class RunObfuscationAction extends AbstractGuardAction
         if (guardFacet == null)
         {
             System.out.println("RunObfuscationAction.actionPerformed: no GuardFacet");
-           return;
+            return;
         }
         VirtualFile baseDir = module.getProject().getBaseDir();
         if (baseDir == null)
@@ -84,6 +84,12 @@ public class RunObfuscationAction extends AbstractGuardAction
             return;
         }
 
+        if (guardFacet.getConfiguration().yGuardJar == null)
+        {
+            Messages.showErrorDialog(module.getProject(), "Missing yGuard archive\n\nPlease check Obfuscation facet settings.", "Obfuscation error");
+            return;
+        }
+        
         final ValidationResult yGuardValidationResult = ObfuscatorUtils.checkYGuard(guardFacet.getConfiguration().yGuardJar);
         if (yGuardValidationResult != ValidationResult.OK)
         {
