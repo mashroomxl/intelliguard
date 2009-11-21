@@ -23,6 +23,7 @@ import com.googlecode.intelliguard.facet.GuardFacetType;
 import com.googlecode.intelliguard.inspection.GuardInspection;
 import com.googlecode.intelliguard.inspection.SerializationProblemsInspection;
 import com.googlecode.intelliguard.inspection.PluginProblemsInspection;
+import com.googlecode.intelliguard.inspection.ReflectionProblemsInspection;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -55,6 +56,11 @@ public class GuardComponent implements ApplicationComponent, InspectionToolProvi
 
     public Class[] getInspectionClasses()
     {
-        return new Class[] { GuardInspection.class, SerializationProblemsInspection.class, PluginProblemsInspection.class};
+        return new Class[] {
+                GuardInspection.class,
+                SerializationProblemsInspection.class,
+                PluginProblemsInspection.class,
+                ReflectionProblemsInspection.class
+        };
     }
 }
