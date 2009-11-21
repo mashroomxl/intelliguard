@@ -28,7 +28,6 @@ import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.ide.plugins.PluginBean;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.components.ComponentConfig;
-import com.intellij.codeHighlighting.HighlightDisplayLevel;
 import com.googlecode.intelliguard.util.PsiUtils;
 import com.googlecode.intelliguard.util.InspectionUtils;
 import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
@@ -106,12 +105,16 @@ public class PluginProblemsInspection extends GuardInspectionBase
                         final Set<String> extensionClasses = new HashSet<String>();
                         extractElementClassNames(extensionClasses, pluginDescriptor.extensions);
 
+                        final Set<String> extensionPoints = new HashSet<String>();
+                        extractElementClassNames(extensionPoints, pluginDescriptor.extensionPoints);
+
                         /*
                         System.out.println("ApplicationComponentClasses = " + applicationComponentClasses);
                         System.out.println("ProjectComponentClasses = " + projectComponentClasses);
                         System.out.println("ModuleComponentClasses = " + moduleComponentClasses);
                         System.out.println("ActionClasses = " + actionClasses);
                         System.out.println("ExtensionClasses = " + extensionClasses);
+                        System.out.println("ExtensionPoints = " + extensionPoints);
                         */
 
                         if (applicationComponentClasses.contains(className))
@@ -139,6 +142,11 @@ public class PluginProblemsInspection extends GuardInspectionBase
                             holder.registerProblem(InspectionUtils.getNameIdentifierElement(aClass),
                                     MessageFormat.format("Class {0} is listed as an Extension in {1} and should not be obfuscated", className, PluginManager.PLUGIN_XML));
                         }
+                        if (extensionPoints.contains(className))
+                        {
+                            holder.registerProblem(InspectionUtils.getNameIdentifierElement(aClass),
+                                    MessageFormat.format("Class {0} is listed as an ExtensionPoint in {1} and should not be obfuscated", className, PluginManager.PLUGIN_XML));
+                        }
                     }
                 }
 
@@ -162,6 +170,7 @@ public class PluginProblemsInspection extends GuardInspectionBase
                         {
                             final Element childElement = (Element) child;
                             addIfNotNullAttribute(classNames, childElement, "class");
+                            addIfNotNullAttribute(classNames, childElement, "interface");
                             addIfNotNullAttribute(classNames, childElement, "implementation");
                             addIfNotNullAttribute(classNames, childElement, "serviceInterface");
                             addIfNotNullAttribute(classNames, childElement, "serviceImplementation");
