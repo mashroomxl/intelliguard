@@ -50,13 +50,15 @@ public class RunObfuscationAction extends AbstractGuardAction
     @Override
     public void update(AnActionEvent e)
     {
+        final Presentation presentation = e.getPresentation();
+
         final Module module = e.getData(DataKeys.MODULE);
         if (module == null)
         {
+            presentation.setEnabled(false);
             return;
         }
 
-        final Presentation presentation = e.getPresentation();
         presentation.setText("Obfuscate module '" + module.getName() + "'");
 
         final GuardFacet guardFacet = GuardFacet.getInstance(module);

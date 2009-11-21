@@ -51,10 +51,10 @@ public class ExportGroup extends DefaultActionGroup
             final GuardFacet guardFacet = getGuardFacet(module);
             if (guardFacet != null)
             {
-                presentation.setVisible(true);
+                presentation.setEnabled(true);
                 return;
             }
         }
-        presentation.setVisible(false);
+        presentation.setEnabled(false);
     }
 }
