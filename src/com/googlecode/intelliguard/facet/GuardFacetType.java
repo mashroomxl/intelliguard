@@ -38,6 +38,7 @@ public class GuardFacetType extends FacetType<GuardFacet, GuardFacetConfiguratio
     private static final GuardFacetType instance = new GuardFacetType();
     private static final String JAVA_MODULE = "JAVA_MODULE";
     private static final String PLUGIN_MODULE = "PLUGIN_MODULE";
+    private static final String J2ME_MODULE = "J2ME_MODULE";
 
     private GuardFacetType()
     {
@@ -72,6 +73,6 @@ public class GuardFacetType extends FacetType<GuardFacet, GuardFacetConfiguratio
             return false;
         }
         final String moduleId = moduleType.getId();
-        return JAVA_MODULE.equals(moduleId) || PLUGIN_MODULE.equals(moduleId);
+        return J2ME_MODULE.equals(moduleId) || JAVA_MODULE.equals(moduleId) || PLUGIN_MODULE.equals(moduleId);
     }
 }
