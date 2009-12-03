@@ -68,21 +68,7 @@ public class JarOptionsForm
         final GuardFacetConfiguration facetConfiguration = guardFacet.getConfiguration();
 
         mainClass.getTextField().setText(facetConfiguration.mainclass == null ? "" : facetConfiguration.mainclass);
-        mainClass.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                TreeClassChooser classChooser = TreeClassChooserFactory.getInstance(module.getProject()).createProjectScopeChooser("Choose Main-Class");
-                classChooser.showDialog();
-                PsiClass psiClass = classChooser.getSelectedClass();
-                if (psiClass != null)
-                {
-                    String className = PsiUtils.getKeeperName(psiClass);
-                    // state.mainclass = className;
-                    mainClass.getTextField().setText(className);
-                }
-            }
-        });
+        mainClass.addActionListener(new MainClassChooser(module, mainClass));
 
         jarPath.getTextField().setText(facetConfiguration.inFile == null ? "" : facetConfiguration.inFile);
         jarPath.addActionListener(new ActionListener()
