@@ -27,7 +27,7 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.facet.ui.ValidationResult;
 import com.googlecode.intelliguard.facet.GuardFacet;
 import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
-import com.googlecode.intelliguard.ui.BuildObfuscatedJarDialog;
+import com.googlecode.intelliguard.ui.FormDialogWrapper;
 import com.googlecode.intelliguard.ui.JarOptionsForm;
 import com.googlecode.intelliguard.util.UiUtils;
 import com.googlecode.intelliguard.runner.JarTask;
@@ -105,7 +105,7 @@ public class RunObfuscationAction extends AbstractGuardAction
             guardFacet.getConfiguration().jarConfig.addEntry(outputDir.getAbsolutePath());
         }
 
-        JarOptionsForm jarOptionsForm = BuildObfuscatedJarDialog.show(guardFacet);
+        JarOptionsForm jarOptionsForm = FormDialogWrapper.showJarOptionsForm(guardFacet);
 
         if (jarOptionsForm != null)
         {
