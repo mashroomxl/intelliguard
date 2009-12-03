@@ -51,6 +51,10 @@ public class GuardMarkerEditorListener implements FileEditorManagerListener
     {
         // Refresh the GuardMarker gutter
         final VirtualFile virtualFile = event.getNewFile();
+        if (virtualFile == null)
+        {
+            return;
+        }
         final PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
         final GuardMarker marker = GuardMarker.getGuardMarker(psiFile);
         if (marker != null)
