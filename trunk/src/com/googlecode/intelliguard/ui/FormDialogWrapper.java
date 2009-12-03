@@ -19,6 +19,7 @@ package com.googlecode.intelliguard.ui;
 import com.googlecode.intelliguard.facet.GuardFacet;
 import com.intellij.openapi.ui.DialogBuilder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,9 +27,10 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2009-okt-30
  * Time: 11:56:51
  */
-public class BuildObfuscatedJarDialog
+public class FormDialogWrapper
 {
-    public static JarOptionsForm show(@NotNull GuardFacet guardFacet)
+    @Nullable
+    public static JarOptionsForm showJarOptionsForm(@NotNull GuardFacet guardFacet)
     {
         DialogBuilder builder = new DialogBuilder(guardFacet.getModule().getProject());
         JarOptionsForm jarOptionsForm = new JarOptionsForm(guardFacet);
@@ -40,5 +42,20 @@ public class BuildObfuscatedJarDialog
         int res = builder.show();
 
         return res == 0 ? jarOptionsForm : null;
+    }
+
+    @Nullable
+    public static ExportOptionsForm showExportOptionsForm(@NotNull GuardFacet guardFacet)
+    {
+        DialogBuilder builder = new DialogBuilder(guardFacet.getModule().getProject());
+        ExportOptionsForm exportOptionsForm = new ExportOptionsForm(guardFacet);
+        builder.setCenterPanel(exportOptionsForm.getContentPane());
+        builder.setTitle("Export Configuration");
+        builder.addOkAction().setText("Export");
+        builder.addCancelAction().setText("Cancel");
+
+        int res = builder.show();
+
+        return res == 0 ? exportOptionsForm : null;
     }
 }
