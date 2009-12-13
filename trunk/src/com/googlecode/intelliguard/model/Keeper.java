@@ -41,16 +41,6 @@ public class Keeper
         public abstract String getName();
     }
 
-    public enum Visibility
-    {
-        PUBLIC { public String getName() { return "public"; } },
-        PROTECTED { public String getName() { return "protected"; } },
-        FRIENDLY { public String getName() { return "friendly"; } },
-        PRIVATE { public String getName() { return "private"; } };
-
-        public abstract String getName();
-    }
-
     // mandatory
     private Type type;
 
@@ -59,34 +49,17 @@ public class Keeper
 
     // optional
     private String clazz;
-    private Visibility classes;
-    private Visibility methods;
-    private Visibility fields;
 
     public String toAntElement()
     {
         switch (type)
         {
             case CLASS:
-                StringBuilder sb = new StringBuilder(MessageFormat.format("<{0} name=\"{1}\"", getType().getName(), getName()));
-                if (getClasses() != null)
-                {
-                    sb.append(" classes=\"").append(getClasses().getName()).append("\"");
-                }
-                if (getMethods() != null)
-                {
-                    sb.append(" methods=\"").append(getMethods().getName()).append("\"");
-                }
-                if (getFields() != null)
-                {
-                    sb.append(" fields=\"").append(getFields().getName()).append("\"");
-                }
-                sb.append(" />");
-                return sb.toString();
+                return MessageFormat.format("<{0} name=\"{1}\"\" />", getType().getName(), getName());
             default:
                 return getClazz() == null
-                ? MessageFormat.format("<{0} name=\"{1}\" />", getType().getName(), getName())
-                : MessageFormat.format("<{0} name=\"{1}\" class=\"{2}\" />", getType().getName(), getName(), getClazz());
+                    ? MessageFormat.format("<{0} name=\"{1}\" />", getType().getName(), getName())
+                    : MessageFormat.format("<{0} name=\"{1}\" class=\"{2}\" />", getType().getName(), getName(), getClazz());
         }
     }
 
@@ -139,36 +112,6 @@ public class Keeper
                 return false;
         }
         return false;
-    }
-
-    public Visibility getClasses()
-    {
-        return classes;
-    }
-
-    public void setClasses(Visibility classes)
-    {
-        this.classes = classes;
-    }
-
-    public Visibility getMethods()
-    {
-        return methods;
-    }
-
-    public void setMethods(Visibility methods)
-    {
-        this.methods = methods;
-    }
-
-    public Visibility getFields()
-    {
-        return fields;
-    }
-
-    public void setFields(Visibility fields)
-    {
-        this.fields = fields;
     }
 
     public String getName()
