@@ -23,6 +23,7 @@
         <ul>0.9.5
             <li>Fixed @NotNull assertion error</li>
             <li>Improved/added dialogs for export</li>
+            <li>Android support</li>
         </ul>
         <ul>0.9.4
             <li>Inspections for reflection issues with servlets, applets, etcetera</li>
