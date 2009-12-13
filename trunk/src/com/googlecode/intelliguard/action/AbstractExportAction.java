@@ -19,9 +19,14 @@ package com.googlecode.intelliguard.action;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.module.Module;
+import com.intellij.openapi.ui.Messages;
 import com.googlecode.intelliguard.facet.GuardFacet;
+import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
 import com.googlecode.intelliguard.GuardProjectComponent;
 import com.googlecode.intelliguard.ui.FileChooserFactory;
+import com.googlecode.intelliguard.ui.FormDialogWrapper;
+import com.googlecode.intelliguard.ui.ExportOptionsForm;
+import com.googlecode.intelliguard.ui.Icons;
 import com.googlecode.intelliguard.util.UiUtils;
 import com.googlecode.intelliguard.runner.ProgressInfoReceiver;
 import org.jetbrains.annotations.NotNull;
@@ -54,20 +59,58 @@ public abstract class AbstractExportAction extends AbstractGuardAction
             return;
         }
 
+        final ExportOptionsForm exportOptionsForm = FormDialogWrapper.showExportOptionsForm(guardFacet);
+        if (exportOptionsForm == null)
+        {
+            // user aborted
+            return;
+        }
+
+        GuardFacetConfiguration configuration = guardFacet.getConfiguration();
+        configuration.mainclass = exportOptionsForm.getMainClass();
+        configuration.inFile = exportOptionsForm.getJarPath();
+        configuration.outFile = exportOptionsForm.getObfuscatedJarPath();
+
+        String errorMessage = null;
+        if (configuration.inFile.length() == 0)
+        {
+            errorMessage = "Output jar path not specified";
+        }
+        else if (configuration.outFile.length() == 0)
+        {
+            errorMessage = "Obfuscation jar path not specified";
+        }
+        else if (configuration.inFile.equals(configuration.outFile))
+        {
+            errorMessage = "Output jar path and obfuscated jar path can not be the same";
+        }
+        if (errorMessage != null)
+        {
+            Messages.showErrorDialog(module.getProject(), errorMessage, "Export error");
+            return;
+        }
+
+        // output configuration to toolwindow
         final String config = generateConfiguration(guardFacet);
         final ProgressInfoReceiver receiver = module.getProject().getComponent(GuardProjectComponent.class).createProgressInfoReceiver();
         receiver.info(config);
 
-        final Component component = DataKeys.CONTEXT_COMPONENT.getData(e.getDataContext());
-        final JFileChooser jFileChooser = FileChooserFactory.createPreferredDirectoryFileChooser("Save '" + module.getName() + "' obfuscation settings",
-                module.getModuleFilePath());
-        int res = jFileChooser.showSaveDialog(component);
-        if (res == JFileChooser.APPROVE_OPTION)
+        // ask for saving to file
+        final int answer = Messages.showYesNoCancelDialog(module.getProject(), "Would you like to export configuration to a file?", "Export configuration", Icons.OBFUSCATION_NODE_ICON);
+        if (answer == 0)
         {
-            final File selectedFile = jFileChooser.getSelectedFile();
-            if (!selectedFile.exists() || selectedFile.canWrite())
+            // show file chooser
+            final Component component = DataKeys.CONTEXT_COMPONENT.getData(e.getDataContext());
+            final JFileChooser jFileChooser = FileChooserFactory.createPreferredDirectoryFileChooser("Save '" + module.getName() + "' obfuscation settings",
+                    module.getModuleFilePath());
+            int res = jFileChooser.showSaveDialog(component);
+            if (res == JFileChooser.APPROVE_OPTION)
             {
-                dumpFile(config, selectedFile);
+                final File selectedFile = jFileChooser.getSelectedFile();
+                if (!selectedFile.exists() || selectedFile.canWrite())
+                {
+                    dumpFile(config, selectedFile);
+                }
             }
         }
 
