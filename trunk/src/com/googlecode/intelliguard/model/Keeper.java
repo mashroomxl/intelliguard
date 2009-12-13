@@ -55,7 +55,7 @@ public class Keeper
         switch (type)
         {
             case CLASS:
-                return MessageFormat.format("<{0} name=\"{1}\"\" />", getType().getName(), getName());
+                return MessageFormat.format("<{0} name=\"{1}\" />", getType().getName(), getName());
             default:
                 return getClazz() == null
                     ? MessageFormat.format("<{0} name=\"{1}\" />", getType().getName(), getName())
