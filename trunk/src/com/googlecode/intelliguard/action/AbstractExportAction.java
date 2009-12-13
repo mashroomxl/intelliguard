@@ -103,6 +103,8 @@ public abstract class AbstractExportAction extends AbstractGuardAction
             final Component component = DataKeys.CONTEXT_COMPONENT.getData(e.getDataContext());
             final JFileChooser jFileChooser = FileChooserFactory.createPreferredDirectoryFileChooser("Save '" + module.getName() + "' obfuscation settings",
                     module.getModuleFilePath());
+            // suggest a suitable name for the output file
+            jFileChooser.setSelectedFile(new File(jFileChooser.getCurrentDirectory(), module.getName() + "-obfuscation." + getConfigFileExtension()));
             int res = jFileChooser.showSaveDialog(component);
             if (res == JFileChooser.APPROVE_OPTION)
             {
@@ -147,4 +149,6 @@ public abstract class AbstractExportAction extends AbstractGuardAction
     }
 
     protected abstract String generateConfiguration(@NotNull GuardFacet guardFacet);
+
+    protected abstract String getConfigFileExtension();
 }

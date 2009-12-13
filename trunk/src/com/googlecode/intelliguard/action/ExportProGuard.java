@@ -28,8 +28,16 @@ import com.googlecode.intelliguard.generator.ProGuardGenerator;
  */
 public class ExportProGuard extends AbstractExportAction
 {
+    private static final String FILE_EXTENSION = "pro";
+
     protected String generateConfiguration(@NotNull GuardFacet guardFacet)
     {
         return ProGuardGenerator.generatePro(guardFacet);
+    }
+
+    @Override
+    protected String getConfigFileExtension()
+    {
+        return FILE_EXTENSION;
     }
 }

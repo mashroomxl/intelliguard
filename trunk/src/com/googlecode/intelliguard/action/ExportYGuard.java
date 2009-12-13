@@ -28,8 +28,16 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ExportYGuard extends AbstractExportAction
 {
+    private static final String FILE_EXTENSION = "xml";
+
     protected String generateConfiguration(@NotNull GuardFacet guardFacet)
     {
         return YGuardGenerator.generateBuildXml(guardFacet);
+    }
+
+    @Override
+    protected String getConfigFileExtension()
+    {
+        return FILE_EXTENSION;
     }
 }
