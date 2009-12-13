@@ -22,6 +22,7 @@
     <change-notes><![CDATA[
         <ul>0.9.5
             <li>Fixed @NotNull assertion error</li>
+            <li>Improved/added dialogs for export</li>
         </ul>
         <ul>0.9.4
             <li>Inspections for reflection issues with servlets, applets, etcetera</li>
