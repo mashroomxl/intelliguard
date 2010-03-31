@@ -16,15 +16,19 @@
 
 package com.googlecode.intelliguard.inspection;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nls;
-import com.intellij.psi.*;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.codeHighlighting.HighlightDisplayLevel;
 import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
 import com.googlecode.intelliguard.model.Keeper;
-import com.googlecode.intelliguard.util.PsiUtils;
 import com.googlecode.intelliguard.util.InspectionUtils;
+import com.googlecode.intelliguard.util.PsiUtils;
+import com.intellij.codeInspection.ProblemsHolder;
+import com.intellij.psi.JavaElementVisitor;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElementVisitor;
+import com.intellij.psi.PsiField;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiReferenceExpression;
+import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.MessageFormat;
 
@@ -56,7 +60,7 @@ public class SerializationProblemsInspection extends GuardInspectionBase
     @NotNull
     public String getShortName()
     {
-        return "Serialization Problems";
+        return "SerializationProblems";
     }
 
     @Override

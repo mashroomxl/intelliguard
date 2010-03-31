@@ -58,7 +58,7 @@ public class PluginProblemsInspection extends GuardInspectionBase
     @NotNull
     public String getShortName()
     {
-        return "Plugin descriptor problems";
+        return "PluginProblems";
     }
 
     @Override
