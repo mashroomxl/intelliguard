@@ -16,16 +16,20 @@
 
 package com.googlecode.intelliguard.inspection;
 
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
-
-import com.intellij.psi.*;
-import com.intellij.codeInspection.ProblemsHolder;
 import com.googlecode.intelliguard.facet.GuardFacetConfiguration;
 import com.googlecode.intelliguard.model.Keeper;
 import com.googlecode.intelliguard.util.InspectionUtils;
+import com.intellij.codeInspection.ProblemsHolder;
+import com.intellij.psi.JavaElementVisitor;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElementVisitor;
+import com.intellij.psi.PsiReferenceExpression;
+import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -67,7 +71,7 @@ public class ReflectionProblemsInspection extends GuardInspectionBase
     @NotNull
     public String getShortName()
     {
-        return "Reflection problems";
+        return "ReflectionProblems";
     }
 
     @Override

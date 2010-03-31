@@ -8,6 +8,7 @@
         <p>Key features:
             <ul>
                 <li>No more hazzles with configuration files. Just hit ALT+ENTER on any symbol in the editor for keep options.</li>
+                <li>Create obfuscated archive directly from the IDE.</li>
                 <li>Refactor support. Kept symbols remain unobfuscated after rename or move.</li>
                 <li>Inspections for common obfuscation pitfalls.</li>
                 <li>Optional (toggleable) gutter icons for obfuscated symbols.</li>
@@ -17,9 +18,12 @@
         </p>
         <p>Project home: <a href="http://code.google.com/p/intelliguard/">http://code.google.com/p/intelliguard/</a>
     ]]></description>
-    <version>0.9.5</version>
+    <version>0.9.6</version>
     <vendor logo="/com/googlecode/intelliguard/guard_mask_16x16.png" email="ronnie.kolehmainen@esn.me">Ronnie Kolehmainen</vendor>
     <change-notes><![CDATA[
+        <ul>0.9.6
+            <li>Fixed inspection ids</li>
+        </ul>
         <ul>0.9.5
             <li>Fixed @NotNull assertion error</li>
             <li>Improved/added dialogs for export</li>
